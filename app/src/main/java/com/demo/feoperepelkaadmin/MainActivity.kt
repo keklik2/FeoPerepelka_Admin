@@ -2,22 +2,36 @@ package com.demo.feoperepelkaadmin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import com.demo.architecture.helpers.setVisibility
+import com.demo.feoperepelkaadmin.databinding.ActivityMainBinding
+import com.demo.feoperepelkaadmin.server.Server
+import kotlin.Exception
 import android.util.Log
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import com.parse.ParseObject
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val tv = findViewById<TextView>(R.id.tv)
+        binding.buttonCategory.setOnClickListener {
 
-        val firstObject = ParseObject("FirstClass")
-        firstObject.put("message","Hey ! First message from android. Parse is now connected")
-        firstObject.saveInBackground {
-            if (it != null){ it.localizedMessage?.let { msg -> tv.text = "error: $msg" }
-            } else { tv.text = "success" }
+        }
+
+        binding.buttonProduct.setOnClickListener {
+
+        }
+
+        binding.buttonOrder.setOnClickListener {
+
         }
     }
 }
