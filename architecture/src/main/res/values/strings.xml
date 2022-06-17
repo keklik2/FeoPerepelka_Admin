@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">architecture</string>
+
+    <!-- Days of weeks -->
+    <string name="monday">ПН</string>
+    <string name="tuesday">ВТ</string>
+    <string name="wednesday">СР</string>
+    <string name="thursday">ЧТ</string>
+    <string name="friday">ПТ</string>
+    <string name="saturday">СБ</string>
+    <string name="sunday">ВС</string>
+
+    <!-- Converter res -->
+    <string name="percents">%s\%</string>
+</resources>
