@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FeoPerepelka(Admin)</string>
-    
-    <!-- Back4App keys -->
+
+    <!-- Server -->
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
     <string name="back4app_app_id">pdL7J2LCJoZtDWT2oZa2d6WFqjaTFWZyAtrTMeAE</string>
     <string name="back4app_client_key">XSaScTI8V8poE79Z91vqtJUsTaAq82D2PON9xX4R</string>

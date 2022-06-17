@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "FeoPerepelka(Admin)"
 include ':app'
+include ':architecture'
