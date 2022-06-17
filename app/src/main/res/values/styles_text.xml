@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Title text -->
+    <style name="entryTitleText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="fontFamily">@font/gotham_pro_narrow</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="entryTitleText.Note">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="entryTitleText.Order">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <!-- Description & Weight text for Note item -->
+    <style name="descriptionText">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/gotham_pro_narrow</item>
+    </style>
+
+    <!-- Price text for Note item -->
+    <style name="priceText">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/gotham_pro_narrow</item>
+        <item name="android:textColor">@color/light_green</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Text Input Edit Layouts -->
+    <style name="inputText">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/gotham_pro_narrow</item>
+        <item name="android:textColor">@color/light_black</item>
+    </style>
+
+    <style name="inputTextLayout">
+        <item name="boxBackgroundColor">@color/light_gray</item>
+        <item name="boxCornerRadiusBottomEnd">15dp</item>
+        <item name="boxCornerRadiusBottomStart">15dp</item>
+        <item name="boxCornerRadiusTopEnd">15dp</item>
+        <item name="boxCornerRadiusTopStart">15dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+
+    <!-- Errors text -->
+    <style name="error">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">16sp</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textAlignment">center</item>
+        <item name="fontFamily">@font/gotham_pro_narrow</item>
+    </style>
+
+    <style name="error.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_black</item>
+    </style>
+
+    <!-- Const (static) text - Common -->
+    <style name="constText">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/gotham_pro_narrow</item>
+    </style>
+
+    <style name="constText.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="constText.SmallWhite">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+</resources>

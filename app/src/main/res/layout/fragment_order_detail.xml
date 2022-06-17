@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        style="@style/entryTitleText.Order"
+        tools:text="Заказ №274"/>
+
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_accept">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <TextView
+                android:id="@+id/tv_positions_Const"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                style="@style/constText"
+                android:textStyle="bold"
+                android:text="@string/const_positions"/>
+
+            <TextView
+                android:id="@+id/tv_positions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_positions_Const"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                style="@style/constText"
+                tools:text="Свежие перепела (2шт), Маринованые перепела (1шт), Паштет перепелиный (10шт), Паштет из мидий (4шт), Соус мёд-манго (5шт)"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_positions"
+
+                style="@style/inputTextLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tiet_address"
+                    android:inputType="textMultiLine"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:hint="@string/hint_address"
+                    tools:text="г.Севастополь, ул.Сафронова, д.40"
+
+                    style="@style/inputText"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_client_const"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/til_address"
+                app:layout_constraintStart_toStartOf="parent"
+
+                style="@style/constText"
+                android:textStyle="bold"
+                android:text="@string/const_client"/>
+
+            <TextView
+                android:id="@+id/tv_client"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_client_const"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                style="@style/constText"
+                tools:text="Пятничкин Вячеслав"/>
+
+            <TextView
+                android:id="@+id/tv_description_const"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_client"
+                app:layout_constraintStart_toStartOf="parent"
+
+                style="@style/constText"
+                android:textStyle="bold"
+                android:text="@string/const_description"/>
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_description_const"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                style="@style/constText"
+                tools:text="Звонить с 10:00 до 20:00 в любой день"/>
+
+            <TextView
+                android:id="@+id/tv_date_const"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_description"
+                app:layout_constraintStart_toStartOf="parent"
+
+                style="@style/constText"
+                android:textStyle="bold"
+                android:text="@string/const_date"/>
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_date_const"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                style="@style/constText"
+                tools:text="18.02.2022"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/tv_call_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="16dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_copy"
+
+                android:background="@drawable/background_rectangle"
+                android:backgroundTint="@color/light_green"
+
+                android:drawableStart="@drawable/ic_phone"
+
+                tools:text="+7(910)999-99-99"
+                style="@style/constText.White"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/iv_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:padding="12dp"
+                app:layout_constraintDimensionRatio="1:1"
+
+                app:layout_constraintTop_toTopOf="@id/tv_call_number"
+                app:layout_constraintStart_toEndOf="@id/tv_call_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_call_number"
+
+                android:background="@drawable/background_rectangle"
+                android:backgroundTint="@color/light_gray"
+
+                app:srcCompat="@drawable/ic_copy_gray"
+                android:contentDescription="@string/iv_desc_copy_icon" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/tv_delete_order"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+
+                android:background="@drawable/background_rectangle"
+                android:backgroundTint="@color/light_red"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_call_number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                style="@style/constText.White"
+                android:text="@string/const_delete_order"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_accept"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        style="@style/acceptButton"
+        android:text="@string/button_accept"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

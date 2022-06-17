@@ -5,4 +5,90 @@
 <!--    <string name="back4app_server_url">enter your URL</string>-->
 <!--    <string name="back4app_app_id">enter your ID</string>-->
 <!--    <string name="back4app_client_key">enter your KEY</string>-->
+
+    <!-- Titles -->
+    <string name="title_category">Категория</string>
+    <string name="title_note">Пункт меню</string>
+    <string name="title_order">Заказ</string>
+
+    <!-- Const values -->
+    <string name="const_product_available">В наличии</string>
+    <string name="const_product_unavailable">Нет в наличии</string>
+    <string name="const_positions">Позиции:</string>
+    <string name="const_client">Заказчик:</string>
+    <string name="const_address">Адрес:</string>
+    <string name="const_description">Комментарии:</string>
+    <string name="const_date">Дата:</string>
+    <string name="const_phone">Номер:</string>
+    <string name="const_weight_unit">Гр</string>
+    <string name="const_price_unit">₽</string>
+    <string name="const_delete_order">Удалить (завершить) заказ</string>
+    <string name="const_empty_orders">Здесь будут отображаться заказы. \nКогда поступит новый заказ, Вы получите оповещение (:</string>
+    <string name="const_empty_notes">Здесь будут отображаться продукты магазина. \nЧтобы добавть новый продукт, нажмите на кнопку снизу справа (:</string>
+    <string name="const_enable">Доступно</string>
+    <string name="const_disable">Недоступно</string>
+    <string name="const_login">Вход</string>
+
+    <!-- Buttons -->
+    <string name="button_accept">Принять</string>
+    <string name="button_decline">Отмена</string>
+    <string name="button_login">Войти</string>
+    <string name="button_try_again">Попробовать снова</string>
+    <string name="button_add">+</string>
+    <string name="button_delete">-</string>
+
+    <!-- Text input layouts Errors -->
+    <string name="category_title_error">Недопустимый заголовок</string>
+    <string name="note_title_error">Недопустимый заголовок</string>
+    <string name="note_description_error">Недопустимое описание</string>
+    <string name="note_weight_error">Недопустимый вес (в граммах)</string>
+    <string name="note_price_error">Недопустимая стоимость</string>
+    <string name="order_address_error">Недопустимый адрес</string>
+    <string name="login_error">Недопустимый e-mail</string>
+    <string name="password_error">Недопустимый пароль</string>
+
+    <!-- Other errors -->
+    <string name="category_unable_to_delete_locked_category">Невозможно удалить заблокированную категорию</string>
+    <string name="lost_connection_title_error">Отсутствует соединение</string>
+    <string name="lost_connection_error">Пожалуйста, проверьте, что Ваш девайс подключен к интернет-соеднениею и повторите попытку</string>
+    <string name="wrong_login_title_error">Вход не выполнен</string>
+    <string name="wrong_login_error">Неверный логин или пароль\nПожалуйста, проверьте корректность вводимых данных и повторите попытку</string>
+
+
+    <!-- Pictures & Buttons description -->
+    <string name="btn_desc_add_category">Кнопка добавления категории</string>
+    <string name="btn_desc_add_note">Кнопка добавления продукта</string>
+    <string name="iv_desc_dragging_icon">Dragging icon image</string>
+    <string name="iv_desc_prodduct_image">Food product icon image</string>
+    <string name="iv_desc_locked_category">Locked category icon image</string>
+    <string name="iv_desc_currency_icon">Currency icon image</string>
+    <string name="iv_desc_picking_img_icon">Picking icon image</string>
+    <string name="iv_desc_call_icon">Call icon image</string>
+    <string name="iv_desc_copy_icon">Copy icon image</string>
+    <string name="iv_desc_product_available">Product available icon image</string>
+    <string name="iv_desc_product_unavailable">Product unavailable icon image</string>
+    <string name="iv_desc_lost_connection">Lost connection icon</string>
+    <string name="iv_desc_app_icon">Application icon</string>
+
+    <!-- Hints -->
+    <string name="hint_category_title">Название категории</string>
+    <string name="hint_note_title">Название продукта</string>
+    <string name="hint_img_url">Фотография</string>
+    <string name="hint_description">Описание</string>
+    <string name="hint_weight">Вес</string>
+    <string name="hint_price">Стоимость</string>
+    <string name="hint_positions">Позиции</string>
+    <string name="hint_address">Адрес</string>
+    <string name="hint_login">E-Mail адрес</string>
+    <string name="hint_password">Пароль</string>
+
+    <!-- String-Arrays for Spinners -->
+    <string-array name="availabilities">
+        <item>В наличии</item>
+        <item>Нет в наличии</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>- не назначены -</item>
+    </string-array>
 </resources>
