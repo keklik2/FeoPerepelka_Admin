@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.buttonCategory.setOnClickListener {
-
+            try { Server.getAllCategories { binding.tvLog.text = "${binding.tvLog.text}\n$it" } }
+            catch (e: Exception) { binding.tvLog.text = "${binding.tvLog.text}\nERR: $e" }
         }
 
         binding.buttonProduct.setOnClickListener {
