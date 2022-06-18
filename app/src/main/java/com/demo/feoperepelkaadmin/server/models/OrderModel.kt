@@ -4,7 +4,7 @@ import com.parse.ParseObject
 
 data class OrderModel(
     var title: String,
-    var shopList: Map<ProductModel, Int> = mapOf(),
+    var shopList: Map<String, Int> = mapOf(),
     var customer: String,
     var address: String,
     var description: String = UNDEFINED_STRING,

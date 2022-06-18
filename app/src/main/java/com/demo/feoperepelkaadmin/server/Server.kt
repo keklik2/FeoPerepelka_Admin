@@ -63,9 +63,9 @@ object Server {
 
     fun addOrUpdateProduct(product: ProductModel) {
         if (hasInternetConnection()) {
-            with(product.parseObject) {
+            with(product.parseObject!!) {
                 put(ProductModel.TITLE_KEY, product.title)
-                put(ProductModel.CATEGORY_KEY, product.categoryItem) // Make category item parcelized
+                put(ProductModel.CATEGORY_KEY, product.category)
                 put(ProductModel.ENABLED_KEY, product.enabled)
                 put(ProductModel.DESCRIPTION_KEY, product.description)
                 put(ProductModel.WEIGHT_KEY, product.weight)
@@ -77,7 +77,7 @@ object Server {
     }
 
     fun deleteProduct(product: ProductModel) {
-        if (hasInternetConnection()) product.parseObject.deleteInBackground { e ->
+        if (hasInternetConnection()) product.parseObject!!.deleteInBackground { e ->
             if (e != null) throw Exception(e)
         }
         else throw Exception(ERR_NO_INTERNET)
@@ -106,7 +106,12 @@ object Server {
         if (hasInternetConnection()) {
             ParseObject(OrderModel.ENTITY_NAME).apply {
                 put(OrderModel.TITLE_KEY, "Order [$count]")
-                put(OrderModel.SHOP_LIST_KEY, "show list")
+                put(OrderModel.SHOP_LIST_KEY, mapOf(
+                    Pair("Test 1", 3),
+                    Pair("Test 2", 1),
+                    Pair("Test 3", 12),
+                    Pair("Test 4", 2)
+                ))
                 put(OrderModel.CUSTOMER_KEY, "Customer [$count]")
                 put(OrderModel.ADDRESS_KEY, "Address [$count]")
                 put(OrderModel.DESCRIPTION_KEY, "Description [$count]")

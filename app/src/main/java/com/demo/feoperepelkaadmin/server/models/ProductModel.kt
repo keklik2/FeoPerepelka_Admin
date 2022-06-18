@@ -1,20 +1,17 @@
 package com.demo.feoperepelkaadmin.server.models
 
-import android.os.Parcelable
 import com.parse.ParseObject
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class ProductModel(
     var title: String,
-    var categoryItem: CategoryModel,
+    var category: String,
     var enabled: Boolean = ENABLE,
     var description: String = UNDEFINED_STRING,
     var weight: Double,
     var price: Double,
     var imgUrl: String = UNDEFINED_STRING,
-    var parseObject: ParseObject = ParseObject(ENTITY_NAME)
-): Parcelable {
+    var parseObject: ParseObject? = ParseObject(ENTITY_NAME)
+) {
     companion object {
         private const val ENABLE = true
         private const val UNDEFINED_STRING = "-"
