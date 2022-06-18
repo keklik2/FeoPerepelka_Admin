@@ -54,6 +54,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     /**
+     * Server implementation
+     */
+    implementation "com.github.parse-community.Parse-SDK-Android:parse:3.0.1"
+
+    /**
      * Coroutines - lib for async programming
      */
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
