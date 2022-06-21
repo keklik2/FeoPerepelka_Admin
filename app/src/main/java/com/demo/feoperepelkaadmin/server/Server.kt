@@ -7,6 +7,7 @@ import com.demo.feoperepelkaadmin.server.converters.ProductConverter
 import com.demo.feoperepelkaadmin.server.models.CategoryModel
 import com.demo.feoperepelkaadmin.server.models.OrderModel
 import com.demo.feoperepelkaadmin.server.models.ProductModel
+import com.parse.ParseException
 import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseQuery
@@ -15,95 +16,149 @@ import java.util.*
 
 object Server {
 
-    private const val ERR_NO_INTERNET = "No internet connection"
+    const val ERR_CONNECTION_FAILED = "Connection failed"
+    const val ERR_EXTRA = "Something went wrong. Try again later"
 
     private val cConverter = CategoryConverter()
     private val pConverter = ProductConverter()
     private val oConverter = OrderConverter()
 
-    fun getAllCategories(onSuccessCallback: (result: List<CategoryModel>) -> Unit) {
-        if (hasInternetConnection()) {
-            ParseQuery.getQuery<ParseObject>(CategoryModel.ENTITY_NAME).apply {
-                orderByAscending(CategoryModel.TITLE_KEY)
-                findInBackground { objects, e ->
-                    if (e != null) throw Exception(e)
-                    else if (!objects.isNullOrEmpty())
-                        onSuccessCallback.invoke(objects.map { cConverter.mapObjectToModel(it) })
-                }
+    fun getAllCategories(
+        onSuccessCallback: (result: List<CategoryModel>) -> Unit,
+        onErrorCallback: ((e: Exception) -> Unit)? = null
+    ) {
+        ParseQuery.getQuery<ParseObject>(CategoryModel.ENTITY_NAME).apply {
+            orderByAscending(CategoryModel.TITLE_KEY)
+            findInBackground { objects, e ->
+                if (e != null) {
+                    onErrorCallback?.let {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
+                } else if (!objects.isNullOrEmpty())
+                    onSuccessCallback.invoke(objects.map { cConverter.mapObjectToModel(it) })
             }
-        } else throw Exception(ERR_NO_INTERNET)
-    }
-
-    fun addOrUpdateCategory(category: CategoryModel) {
-        if (hasInternetConnection()) {
-            with(category.parseObject) {
-                put(CategoryModel.TITLE_KEY, category.title)
-                put(CategoryModel.LOCKED_KEY, category.locked)
-                saveInBackground { e -> if (e != null) throw Exception(e) }
-            }
-        } else throw Exception(ERR_NO_INTERNET)
-    }
-
-    fun deleteCategory(category: CategoryModel) {
-        if (hasInternetConnection()) category.parseObject.deleteInBackground { e ->
-            if (e != null) throw Exception(e)
         }
-        else throw Exception(ERR_NO_INTERNET)
     }
 
-    fun getAllProducts(onSuccessCallback: (result: List<ProductModel>) -> Unit) {
-        if (hasInternetConnection()) {
-            ParseQuery.getQuery<ParseObject>(ProductModel.ENTITY_NAME).apply {
-                orderByAscending(ProductModel.TITLE_KEY)
-                findInBackground { objects, e ->
-                    if (e != null) throw Exception(e)
-                    else if (!objects.isNullOrEmpty())
-                        onSuccessCallback.invoke(objects.map { pConverter.mapObjectToModel(it) })
+    fun addOrUpdateCategory(
+        category: CategoryModel,
+        onErrorCallback: ((e: Exception) -> Unit)? = null
+    ) {
+        with(category.parseObject) {
+            put(CategoryModel.TITLE_KEY, category.title)
+            put(CategoryModel.LOCKED_KEY, category.locked)
+            saveInBackground { e ->
+                onErrorCallback?.let {
+                    if (e != null) {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
                 }
             }
-        } else throw Exception(ERR_NO_INTERNET)
+        }
     }
 
-    fun addOrUpdateProduct(product: ProductModel) {
-        if (hasInternetConnection()) {
-            with(product.parseObject!!) {
-                put(ProductModel.TITLE_KEY, product.title)
-                put(ProductModel.CATEGORY_KEY, product.category)
-                put(ProductModel.ENABLED_KEY, product.enabled)
-                put(ProductModel.DESCRIPTION_KEY, product.description)
-                put(ProductModel.WEIGHT_KEY, product.weight)
-                put(ProductModel.PRICE_KEY, product.price)
-                put(
-                    ProductModel.IMG_KEY,
-                    ParseFile(
-                        ByteArrayOutputStream().apply {
-                            product.img.compress(Bitmap.CompressFormat.PNG, 0, this)
-                        }.toByteArray()
-                    )
+    fun deleteCategory(category: CategoryModel, onErrorCallback: ((e: Exception) -> Unit)? = null) {
+        category.parseObject.deleteInBackground { e ->
+            onErrorCallback?.let {
+                if (e != null) {
+                    when (e.code) {
+                        ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                        else -> it(Exception(ERR_EXTRA))
+                    }
+                }
+            }
+        }
+    }
+
+    fun getAllProducts(
+        onSuccessCallback: (result: List<ProductModel>) -> Unit,
+        onErrorCallback: ((e: Exception) -> Unit)? = null
+    ) {
+        ParseQuery.getQuery<ParseObject>(ProductModel.ENTITY_NAME).apply {
+            orderByAscending(ProductModel.TITLE_KEY)
+            findInBackground { objects, e ->
+                if (e != null) {
+                    onErrorCallback?.let {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
+                }else if (!objects.isNullOrEmpty())
+                    onSuccessCallback.invoke(objects.map { pConverter.mapObjectToModel(it) })
+            }
+        }
+    }
+
+    fun addOrUpdateProduct(
+        product: ProductModel,
+        onErrorCallback: ((e: Exception) -> Unit)? = null
+    ) {
+        with(product.parseObject!!) {
+            put(ProductModel.TITLE_KEY, product.title)
+            put(ProductModel.CATEGORY_KEY, product.category)
+            put(ProductModel.ENABLED_KEY, product.enabled)
+            put(ProductModel.DESCRIPTION_KEY, product.description)
+            put(ProductModel.WEIGHT_KEY, product.weight)
+            put(ProductModel.PRICE_KEY, product.price)
+            put(
+                ProductModel.IMG_KEY,
+                ParseFile(
+                    ByteArrayOutputStream().apply {
+                        product.img.compress(Bitmap.CompressFormat.PNG, 0, this)
+                    }.toByteArray()
                 )
-                saveInBackground { if (it != null) throw Exception(it) }
-            }
-        } else throw Exception(ERR_NO_INTERNET)
-    }
-
-    fun deleteProduct(product: ProductModel) {
-        if (hasInternetConnection()) product.parseObject!!.deleteInBackground { e ->
-            if (e != null) throw Exception(e)
-        }
-        else throw Exception(ERR_NO_INTERNET)
-    }
-
-    fun getAllOrders(onSuccessCallback: (result: List<OrderModel>) -> Unit) {
-        if (hasInternetConnection()) {
-            ParseQuery.getQuery<ParseObject>(OrderModel.ENTITY_NAME).apply {
-                orderByDescending(OrderModel.DATE_KEY)
-                findInBackground { objects, e ->
-                    if (e != null) throw Exception(e)
-                    else if (!objects.isNullOrEmpty())
-                        onSuccessCallback.invoke(objects.map { oConverter.mapObjectToModel(it) })
+            )
+            saveInBackground { e ->
+                onErrorCallback?.let {
+                    if (e != null) {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
                 }
             }
-        } else throw Exception(ERR_NO_INTERNET)
+        }
+    }
+
+    fun deleteProduct(product: ProductModel, onErrorCallback: ((e: Exception) -> Unit)? = null) {
+        product.parseObject!!.deleteInBackground { e ->
+            onErrorCallback?.let {
+                if (e != null) {
+                    when (e.code) {
+                        ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                        else -> it(Exception(ERR_EXTRA))
+                    }
+                }
+            }
+        }
+    }
+
+    fun getAllOrders(
+        onSuccessCallback: (result: List<OrderModel>) -> Unit,
+        onErrorCallback: ((e: Exception) -> Unit)? = null
+    ) {
+        ParseQuery.getQuery<ParseObject>(OrderModel.ENTITY_NAME).apply {
+            orderByDescending(OrderModel.DATE_KEY)
+            findInBackground { objects, e ->
+                if (e != null) {
+                    onErrorCallback?.let {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
+                }else if (!objects.isNullOrEmpty())
+                    onSuccessCallback.invoke(objects.map { oConverter.mapObjectToModel(it) })
+            }
+        }
     }
 
 
@@ -112,41 +167,45 @@ object Server {
      * !! Will be deleted in release version
      */
     private var count = 0
-    fun addTestOrder() {
-        if (hasInternetConnection()) {
-            ParseObject(OrderModel.ENTITY_NAME).apply {
-                put(OrderModel.TITLE_KEY, "Order [$count]")
-                put(
-                    OrderModel.SHOP_LIST_KEY, mapOf(
-                        Pair("Test 1", 3),
-                        Pair("Test 2", 1),
-                        Pair("Test 3", 12),
-                        Pair("Test 4", 2)
-                    )
+    fun addTestOrder(onErrorCallback: ((e: Exception) -> Unit)? = null) {
+        ParseObject(OrderModel.ENTITY_NAME).apply {
+            put(OrderModel.TITLE_KEY, "Order [$count]")
+            put(
+                OrderModel.SHOP_LIST_KEY, mapOf(
+                    Pair("Test 1", 3),
+                    Pair("Test 2", 1),
+                    Pair("Test 3", 12),
+                    Pair("Test 4", 2)
                 )
-                put(OrderModel.CUSTOMER_KEY, "Customer [$count]")
-                put(OrderModel.ADDRESS_KEY, "Address [$count]")
-                put(OrderModel.DESCRIPTION_KEY, "Description [$count]")
-                put(OrderModel.PHONE_KEY, "Phone [${count++}]")
-                put(OrderModel.DATE_KEY, Date().time)
-                saveInBackground { if (it != null) throw Exception(it) }
+            )
+            put(OrderModel.CUSTOMER_KEY, "Customer [$count]")
+            put(OrderModel.ADDRESS_KEY, "Address [$count]")
+            put(OrderModel.DESCRIPTION_KEY, "Description [$count]")
+            put(OrderModel.PHONE_KEY, "Phone [${count++}]")
+            put(OrderModel.DATE_KEY, Date().time)
+            saveInBackground { e ->
+                onErrorCallback?.let {
+                    if (e != null) {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
+                }
             }
-        } else throw Exception(ERR_NO_INTERNET)
-    }
-
-    fun deleteOrder(order: OrderModel) {
-        if (hasInternetConnection()) order.parseObject.deleteInBackground { e ->
-            if (e != null) throw Exception(e)
         }
-        else throw Exception(ERR_NO_INTERNET)
     }
 
-
-    fun test() {
-    }
-
-
-    private fun hasInternetConnection(): Boolean {
-        return true
+    fun deleteOrder(order: OrderModel, onErrorCallback: ((e: Exception) -> Unit)? = null) {
+        order.parseObject.deleteInBackground { e ->
+            onErrorCallback?.let {
+                if (e != null) {
+                    when (e.code) {
+                        ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                        else -> it(Exception(ERR_EXTRA))
+                    }
+                }
+            }
+        }
     }
 }
