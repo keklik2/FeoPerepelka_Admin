@@ -4,7 +4,7 @@ import com.parse.ParseObject
 
 data class OrderModel(
     var title: String,
-    var shopList: Map<String, Int> = mapOf(),
+    var shopList: MutableMap<String, Int> = mutableMapOf(),
     var customer: String,
     var address: String,
     var description: String = UNDEFINED_STRING,
@@ -12,6 +12,15 @@ data class OrderModel(
     var date: Long,
     var parseObject: ParseObject = ParseObject(ENTITY_NAME)
 ) {
+    fun getRefactoredShopList(): String {
+        val sb = StringBuilder()
+        for (i in shopList) {
+            sb.append("${i.key}(${i.value})")
+            if (i.key != shopList.keys.last()) sb.append(", ")
+        }
+        return sb.toString()
+    }
+
     companion object {
         private const val UNDEFINED_STRING = "-"
 

@@ -1,4 +1,4 @@
-package com.demo.feoperepelkaadmin
+package com.demo.feoperepelkaadmin.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
