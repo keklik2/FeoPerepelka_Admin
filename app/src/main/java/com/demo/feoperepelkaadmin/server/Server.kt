@@ -17,6 +17,7 @@ import java.util.*
 object Server {
 
     const val ERR_CONNECTION_FAILED = "Connection failed"
+    const val ERR_CATEGORY_LOCKED = "Unable to delete locked category"
     const val ERR_EXTRA = "Something went wrong. Try again later"
 
     private val cConverter = CategoryConverter()
@@ -64,16 +65,18 @@ object Server {
     }
 
     fun deleteCategory(category: CategoryModel, onErrorCallback: ((e: Exception) -> Unit)? = null) {
-        category.parseObject.deleteInBackground { e ->
-            onErrorCallback?.let {
-                if (e != null) {
-                    when (e.code) {
-                        ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
-                        else -> it(Exception(ERR_EXTRA))
+        if (!category.locked) {
+            category.parseObject.deleteInBackground { e ->
+                onErrorCallback?.let {
+                    if (e != null) {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
                     }
                 }
             }
-        }
+        } else onErrorCallback?.invoke(Exception(ERR_CATEGORY_LOCKED))
     }
 
     fun getAllProducts(
