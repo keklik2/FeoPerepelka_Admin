@@ -17,7 +17,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/oi_tv_title"
+            android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -30,34 +30,34 @@
             tools:text="Заказ #1"/>
 
         <View
-            android:id="@+id/oi_horizontal_div_line"
+            android:id="@+id/horizontal_div_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="8dp"
             android:background="@color/dark_gray"
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
         <TextView
-            android:id="@+id/oi_tv_positions_const"
+            android:id="@+id/tv_positions_const"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_horizontal_div_line"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_div_line"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/oi_tv_positions"
+            app:layout_constraintBottom_toTopOf="@+id/tv_positions"
 
             style="@style/constText"
             android:textStyle="bold"
             android:text="@string/const_positions"/>
 
         <TextView
-            android:id="@+id/oi_tv_positions"
+            android:id="@+id/tv_positions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_positions_const"
+            app:layout_constraintTop_toBottomOf="@+id/tv_positions_const"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -66,12 +66,12 @@
             Паштет перепелиный (10шт), Паштет из мидий (4шт), Соус мёд-манго (5шт)"/>
 
         <TextView
-            android:id="@+id/oi_tv_client_const"
+            android:id="@+id/tv_client_const"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_positions"
+            app:layout_constraintTop_toBottomOf="@+id/tv_positions"
             app:layout_constraintStart_toStartOf="parent"
 
             style="@style/constText"
@@ -79,12 +79,12 @@
             android:text="@string/const_client"/>
 
         <TextView
-            android:id="@+id/oi_tv_client"
+            android:id="@+id/tv_client"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_client_const"
+            app:layout_constraintTop_toBottomOf="@+id/tv_client_const"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -92,12 +92,12 @@
             tools:text="Пятничкин Вячеслав"/>
 
         <TextView
-            android:id="@+id/oi_tv_address_const"
+            android:id="@+id/tv_address_const"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_client"
+            app:layout_constraintTop_toBottomOf="@+id/tv_client"
             app:layout_constraintStart_toStartOf="parent"
 
             style="@style/constText"
@@ -105,12 +105,12 @@
             android:text="@string/const_address"/>
 
         <TextView
-            android:id="@+id/oi_tv_address"
+            android:id="@+id/tv_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_address_const"
+            app:layout_constraintTop_toBottomOf="@+id/tv_address_const"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -118,12 +118,12 @@
             tools:text="г.Севастополь, ул.Сафронова, д.40"/>
 
         <TextView
-            android:id="@+id/oi_tv_description_const"
+            android:id="@+id/tv_description_const"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_address"
+            app:layout_constraintTop_toBottomOf="@+id/tv_address"
             app:layout_constraintStart_toStartOf="parent"
 
             style="@style/constText"
@@ -131,12 +131,12 @@
             android:text="@string/const_description"/>
 
         <TextView
-            android:id="@+id/oi_tv_description"
+            android:id="@+id/tv_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_description_const"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description_const"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -144,12 +144,12 @@
             tools:text="Звонить с 10:00 до 20:00 в любой день"/>
 
         <TextView
-            android:id="@+id/oi_tv_date_const"
+            android:id="@+id/tv_date_const"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_description"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description"
             app:layout_constraintStart_toStartOf="parent"
 
             style="@style/constText"
@@ -157,12 +157,12 @@
             android:text="@string/const_date"/>
 
         <TextView
-            android:id="@+id/oi_tv_date"
+            android:id="@+id/tv_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
 
-            app:layout_constraintTop_toBottomOf="@+id/oi_tv_date_const"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_const"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -176,7 +176,7 @@
             android:layout_margin="8dp"
             android:paddingHorizontal="16dp"
 
-            app:layout_constraintTop_toBottomOf="@id/oi_tv_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

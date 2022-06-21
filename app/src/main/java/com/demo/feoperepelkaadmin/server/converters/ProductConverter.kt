@@ -8,7 +8,7 @@ class ProductConverter {
 
     fun mapObjectToModel(parseObject: ParseObject): ProductModel {
         val byteArray = parseObject.getParseFile(ProductModel.IMG_KEY)!!.data
-        val bitmap = BitmapFactory.decodeByteArray(
+        val btm = BitmapFactory.decodeByteArray(
             byteArray,
             0,
             byteArray.size
@@ -20,7 +20,8 @@ class ProductConverter {
             parseObject.getString(ProductModel.DESCRIPTION_KEY) ?: "",
             parseObject.getDouble(ProductModel.WEIGHT_KEY),
             parseObject.getDouble(ProductModel.PRICE_KEY),
-            bitmap,
+            parseObject.getString(ProductModel.IMG_TITLE_KEY) ?: "",
+            btm,
             parseObject
         )
     }

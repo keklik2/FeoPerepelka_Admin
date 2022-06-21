@@ -10,6 +10,7 @@ data class ProductModel(
     var description: String = UNDEFINED_STRING,
     var weight: Double,
     var price: Double,
+    var imgTitle: String,
     var img: Bitmap,
     var parseObject: ParseObject? = ParseObject(ENTITY_NAME)
 ) {
@@ -25,5 +26,6 @@ data class ProductModel(
         const val WEIGHT_KEY = "weight"
         const val PRICE_KEY = "price"
         const val IMG_KEY = "img"
+        const val IMG_TITLE_KEY = "imgTitle"
     }
 }

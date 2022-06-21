@@ -73,6 +73,7 @@ object Server {
                 put(ProductModel.DESCRIPTION_KEY, product.description)
                 put(ProductModel.WEIGHT_KEY, product.weight)
                 put(ProductModel.PRICE_KEY, product.price)
+                put(ProductModel.IMG_TITLE_KEY, product.imgTitle)
                 put(
                     ProductModel.IMG_KEY,
                     ParseFile(

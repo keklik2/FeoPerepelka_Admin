@@ -2,7 +2,9 @@ package com.demo.feoperepelkaadmin
 
 import android.app.Application
 import com.parse.Parse
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class FeoPerepelkaApp: Application() {
 
     override fun onCreate() {

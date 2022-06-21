@@ -8,7 +8,7 @@ class OrderConverter {
     fun mapObjectToModel(parseObject: ParseObject): OrderModel =
         OrderModel(
             parseObject.getString(OrderModel.TITLE_KEY) ?: "",
-            parseObject.getMap<String>(OrderModel.SHOP_LIST_KEY) as Map<String, Int>,
+            parseObject.getMap<String>(OrderModel.SHOP_LIST_KEY) as MutableMap<String, Int>,
             parseObject.getString(OrderModel.CUSTOMER_KEY) ?: "",
             parseObject.getString(OrderModel.ADDRESS_KEY) ?: "",
             parseObject.getString(OrderModel.DESCRIPTION_KEY) ?: "",
