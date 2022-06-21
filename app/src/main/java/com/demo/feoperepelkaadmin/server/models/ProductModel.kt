@@ -1,5 +1,6 @@
 package com.demo.feoperepelkaadmin.server.models
 
+import android.graphics.Bitmap
 import com.parse.ParseObject
 
 data class ProductModel(
@@ -9,7 +10,7 @@ data class ProductModel(
     var description: String = UNDEFINED_STRING,
     var weight: Double,
     var price: Double,
-    var imgUrl: String = UNDEFINED_STRING,
+    var img: Bitmap,
     var parseObject: ParseObject? = ParseObject(ENTITY_NAME)
 ) {
     companion object {
@@ -23,6 +24,6 @@ data class ProductModel(
         const val DESCRIPTION_KEY = "description"
         const val WEIGHT_KEY = "weight"
         const val PRICE_KEY = "price"
-        const val IMG_URL_KEY = "imgUrl"
+        const val IMG_KEY = "img"
     }
 }

@@ -1,13 +1,16 @@
 package com.demo.feoperepelkaadmin.server
 
+import android.graphics.Bitmap
 import com.demo.feoperepelkaadmin.server.converters.CategoryConverter
 import com.demo.feoperepelkaadmin.server.converters.OrderConverter
 import com.demo.feoperepelkaadmin.server.converters.ProductConverter
 import com.demo.feoperepelkaadmin.server.models.CategoryModel
 import com.demo.feoperepelkaadmin.server.models.OrderModel
 import com.demo.feoperepelkaadmin.server.models.ProductModel
+import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseQuery
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 object Server {
@@ -70,7 +73,14 @@ object Server {
                 put(ProductModel.DESCRIPTION_KEY, product.description)
                 put(ProductModel.WEIGHT_KEY, product.weight)
                 put(ProductModel.PRICE_KEY, product.price)
-                put(ProductModel.IMG_URL_KEY, product.imgUrl)
+                put(
+                    ProductModel.IMG_KEY,
+                    ParseFile(
+                        ByteArrayOutputStream().apply {
+                            product.img.compress(Bitmap.CompressFormat.PNG, 0, this)
+                        }.toByteArray()
+                    )
+                )
                 saveInBackground { if (it != null) throw Exception(it) }
             }
         } else throw Exception(ERR_NO_INTERNET)
@@ -106,12 +116,14 @@ object Server {
         if (hasInternetConnection()) {
             ParseObject(OrderModel.ENTITY_NAME).apply {
                 put(OrderModel.TITLE_KEY, "Order [$count]")
-                put(OrderModel.SHOP_LIST_KEY, mapOf(
-                    Pair("Test 1", 3),
-                    Pair("Test 2", 1),
-                    Pair("Test 3", 12),
-                    Pair("Test 4", 2)
-                ))
+                put(
+                    OrderModel.SHOP_LIST_KEY, mapOf(
+                        Pair("Test 1", 3),
+                        Pair("Test 2", 1),
+                        Pair("Test 3", 12),
+                        Pair("Test 4", 2)
+                    )
+                )
                 put(OrderModel.CUSTOMER_KEY, "Customer [$count]")
                 put(OrderModel.ADDRESS_KEY, "Address [$count]")
                 put(OrderModel.DESCRIPTION_KEY, "Description [$count]")
@@ -128,6 +140,11 @@ object Server {
         }
         else throw Exception(ERR_NO_INTERNET)
     }
+
+
+    fun test() {
+    }
+
 
     private fun hasInternetConnection(): Boolean {
         return true
