@@ -93,7 +93,7 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                }else if (!objects.isNullOrEmpty())
+                } else if (!objects.isNullOrEmpty())
                     onSuccessCallback.invoke(objects.map { pConverter.mapObjectToModel(it) })
             }
         }
@@ -159,8 +159,32 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                }else if (!objects.isNullOrEmpty())
+                } else if (!objects.isNullOrEmpty())
                     onSuccessCallback.invoke(objects.map { oConverter.mapObjectToModel(it) })
+            }
+        }
+    }
+
+    fun updateOrder(
+        order: OrderModel, onErrorCallback: ((e: Exception) -> Unit)? = null
+    ) {
+        with(order.parseObject) {
+            put(OrderModel.TITLE_KEY, order.title)
+            put(OrderModel.SHOP_LIST_KEY, order.shopList)
+            put(OrderModel.CUSTOMER_KEY, order.customer)
+            put(OrderModel.ADDRESS_KEY, order.address)
+            put(OrderModel.DESCRIPTION_KEY, order.description)
+            put(OrderModel.PHONE_KEY, order.phoneNumber)
+            put(OrderModel.DATE_KEY, order.date)
+            saveInBackground { e ->
+                onErrorCallback?.let {
+                    if (e != null) {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
+                }
             }
         }
     }

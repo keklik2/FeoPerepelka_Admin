@@ -12,7 +12,7 @@ class CategoriesListFragment: BaseFragment(R.layout.fragment_categories_list) {
     override val binding: FragmentCategoriesListBinding by viewBinding()
     override val vm: CategoriesListViewModel by viewModels()
     override var setupListeners: (() -> Unit)? = {
-
+        setupAddCategoryBtnListener()
     }
     override var setupBinds: (() -> Unit)? = {
 
@@ -23,7 +23,17 @@ class CategoriesListFragment: BaseFragment(R.layout.fragment_categories_list) {
      */
     private val adapter by lazy {
         CategoryAdapter.get {
+            // On title changes listener
             // vh.updateCategory(it)
+        }
+    }
+
+    /**
+     * Listeners
+     */
+    private fun setupAddCategoryBtnListener() {
+        binding.fbAddCategory.setOnClickListener {
+            // vm.addCategory()
         }
     }
 }

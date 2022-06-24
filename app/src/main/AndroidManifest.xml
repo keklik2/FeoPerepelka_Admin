@@ -22,6 +22,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".presentation.ActivitySecondary"
+            android:exported="true">
+        </activity>
+
         <meta-data
             android:name="com.parse.SERVER_URL"
             android:value="@string/back4app_server_url" />

@@ -62,4 +62,9 @@ object Login {
                 }
             }
         }
+
+    fun isLogged(): Boolean {
+//        ParseUser.logOutInBackground {  }
+        return false
+    }
 }

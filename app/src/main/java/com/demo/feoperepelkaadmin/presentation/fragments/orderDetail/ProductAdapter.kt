@@ -27,9 +27,11 @@ object ProductAdapter {
                             onAmountChangedCallback?.invoke(item)
                         }
                         deletePositionButton.setOnClickListener {
-                            item.amount = item.amount - 1
-                            tvPositionAmount.text = item.amount.toString()
-                            onAmountChangedCallback?.invoke(item)
+                            if (item.amount > 0) {
+                                item.amount = item.amount - 1
+                                tvPositionAmount.text = item.amount.toString()
+                                onAmountChangedCallback?.invoke(item)
+                            }
                         }
                     }
                 }

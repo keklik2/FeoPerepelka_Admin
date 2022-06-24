@@ -151,7 +151,7 @@
                 android:textStyle="bold"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/sv_products"
+                android:id="@+id/rv_products"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
@@ -166,15 +166,15 @@
                 tools:itemCount="4"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/tv_call_number"
+                android:id="@+id/button_call_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:paddingHorizontal="16dp"
 
-                app:layout_constraintTop_toBottomOf="@+id/sv_products"
+                app:layout_constraintTop_toBottomOf="@+id/rv_products"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_copy"
+                app:layout_constraintEnd_toStartOf="@id/button_copy"
 
                 android:background="@drawable/background_rectangle"
                 android:backgroundTint="@color/light_green"
@@ -185,17 +185,17 @@
                 style="@style/constText.White"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/iv_copy"
+                android:id="@+id/button_copy"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:padding="12dp"
                 app:layout_constraintDimensionRatio="1:1"
 
-                app:layout_constraintTop_toTopOf="@id/tv_call_number"
-                app:layout_constraintStart_toEndOf="@id/tv_call_number"
+                app:layout_constraintTop_toTopOf="@id/button_call_number"
+                app:layout_constraintStart_toEndOf="@id/button_call_number"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/tv_call_number"
+                app:layout_constraintBottom_toBottomOf="@id/button_call_number"
 
                 android:background="@drawable/background_rectangle"
                 android:backgroundTint="@color/light_gray"
@@ -204,7 +204,7 @@
                 android:contentDescription="@string/iv_desc_copy_icon" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/tv_delete_order"
+                android:id="@+id/button_delete_order"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -213,7 +213,7 @@
                 android:background="@drawable/background_rectangle"
                 android:backgroundTint="@color/light_red"
 
-                app:layout_constraintTop_toBottomOf="@+id/tv_call_number"
+                app:layout_constraintTop_toBottomOf="@+id/button_call_number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
 

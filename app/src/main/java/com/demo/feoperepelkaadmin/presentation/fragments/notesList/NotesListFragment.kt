@@ -12,7 +12,7 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
     override val binding: FragmentNotesListBinding by viewBinding()
     override val vm: NotesListViewModel by viewModels()
     override var setupListeners: (() -> Unit)? = {
-
+        setupAddNoteBtnListener()
     }
     override var setupBinds: (() -> Unit)? = {
 
@@ -23,7 +23,16 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
      */
     private val adapter by lazy {
         NoteAdapter.get {
-            // vm.goToDetailNote(it)
+             vm.goToEditNoteScreen(it)
+        }
+    }
+
+    /**
+     * Listeners
+     */
+    private fun setupAddNoteBtnListener() {
+        binding.fbAddNote.setOnClickListener {
+            vm.goToAddNoteScreen()
         }
     }
 }

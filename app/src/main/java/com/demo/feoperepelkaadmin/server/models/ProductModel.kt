@@ -1,8 +1,11 @@
 package com.demo.feoperepelkaadmin.server.models
 
 import android.graphics.Bitmap
+import android.os.Parcelable
 import com.parse.ParseObject
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ProductModel(
     var title: String,
     var category: String,
@@ -13,7 +16,7 @@ data class ProductModel(
     var imgTitle: String,
     var img: Bitmap,
     var parseObject: ParseObject? = ParseObject(ENTITY_NAME)
-) {
+): Parcelable {
     companion object {
         private const val ENABLE = true
         private const val UNDEFINED_STRING = "-"

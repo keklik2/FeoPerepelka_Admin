@@ -1,7 +1,10 @@
 package com.demo.feoperepelkaadmin.server.models
 
+import android.os.Parcelable
 import com.parse.ParseObject
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class OrderModel(
     var title: String,
     var shopList: MutableMap<String, Int> = mutableMapOf(),
@@ -11,7 +14,7 @@ data class OrderModel(
     var phoneNumber: String,
     var date: Long,
     var parseObject: ParseObject = ParseObject(ENTITY_NAME)
-) {
+): Parcelable {
     fun getRefactoredShopList(): String {
         val sb = StringBuilder()
         for (i in shopList) {

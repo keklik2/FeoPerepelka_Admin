@@ -11,6 +11,11 @@
     <string name="title_note">Пункт меню</string>
     <string name="title_order">Заказ</string>
 
+    <!-- Menu -->
+    <string name="menu_categories">Категории</string>
+    <string name="menu_notes">Продукты</string>
+    <string name="menu_orders">Заказы</string>
+
     <!-- Const values -->
     <string name="const_product_available">В наличии</string>
     <string name="const_product_unavailable">Нет в наличии</string>
@@ -81,6 +86,10 @@
     <string name="hint_address">Адрес</string>
     <string name="hint_login">E-Mail адрес</string>
     <string name="hint_password">Пароль</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_title_error">Ошибка</string>
+    <string name="dialog_error">Ошибка</string>
 
     <!-- String-Arrays for Spinners -->
     <string-array name="availabilities">

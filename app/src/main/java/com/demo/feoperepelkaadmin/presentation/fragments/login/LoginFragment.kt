@@ -12,9 +12,22 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
     override val binding: FragmentLoginBinding by viewBinding()
     override val vm: LoginViewModel by viewModels()
     override var setupListeners: (() -> Unit)? = {
-
+        setupLoginBtnListener()
     }
     override var setupBinds: (() -> Unit)? = {
 
+    }
+
+
+    /**
+     * Listeners
+     */
+    private fun setupLoginBtnListener() {
+        binding.buttonLogin.setOnClickListener {
+            vm.tryLogin(
+                binding.tietLogin.text.toString(),
+                binding.tietPassword.text.toString()
+            )
+        }
     }
 }

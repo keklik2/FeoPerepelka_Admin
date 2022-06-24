@@ -12,4 +12,9 @@
 
     <!-- Converter res -->
     <string name="percents">%s\%</string>
+
+    <!-- Alert Dialogs -->
+    <string name="dialog_positive">Принять</string>
+    <string name="dialog_neutral">Закрыть</string>
+    <string name="dialog_negative">Отмена</string>
 </resources>
