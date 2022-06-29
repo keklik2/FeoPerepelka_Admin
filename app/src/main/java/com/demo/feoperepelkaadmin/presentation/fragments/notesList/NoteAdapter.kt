@@ -1,6 +1,12 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.notesList
 
+import android.R.attr.bitmap
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.graphics.RectF
+import android.util.Log
 import android.view.View
+import com.bumptech.glide.Glide
 import com.demo.architecture.helpers.doubleToStrForDisplay
 import com.demo.architecture.helpers.setVisibility
 import com.demo.feoperepelkaadmin.R
@@ -9,19 +15,12 @@ import com.demo.feoperepelkaadmin.server.models.ProductModel
 import me.ibrahimyilmaz.kiel.adapterOf
 import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
+
 object NoteAdapter {
     fun get(onClickCallback: ((ProductModel) -> Unit)? = null) =
         adapterOf<ProductModel> {
             diff(
-                areContentsTheSame = { old, new ->
-                    old.title == new.title
-                        && old.price == new.price
-                        && old.category == new.category
-                        && old.enabled == new.enabled
-                        && old.description == new.description
-                        && old.imgTitle == new.imgTitle
-                        && old.img == new.img
-                        && old.weight == new.weight },
+                areContentsTheSame = { old, new -> old.title == new.title},
                 areItemsTheSame = { old, new -> old == new }
             )
             register(
@@ -39,7 +38,11 @@ object NoteAdapter {
                         tvWeight.text = doubleToStrForDisplay(item.weight)
                         ivStatusEnabled.setVisibility(item.enabled)
                         ivStatusDisabled.setVisibility(!item.enabled)
-                        ivProduct.setImageBitmap(item.img)
+                        Glide
+                            .with(vh.itemView)
+                            .load(item.img)
+                            .centerCrop()
+                            .into(ivProduct)
                     }
                 }
             )

@@ -1,8 +1,10 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.notesList
 
+import android.graphics.BitmapFactory
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.demo.architecture.BaseFragment
+import com.demo.architecture.helpers.setVisibility
 import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.databinding.FragmentNotesListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +17,7 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
         setupAddNoteBtnListener()
     }
     override var setupBinds: (() -> Unit)? = {
-
+        setupProductsBind()
     }
 
     /**
@@ -26,6 +28,19 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
              vm.goToEditNoteScreen(it)
         }
     }
+
+
+    /**
+     * Binds
+     */
+    private fun setupProductsBind() {
+        binding.rvNotes.adapter = adapter
+        vm::prodList bind {
+            adapter.submitList(it)
+            binding.tvEmptyNotes.setVisibility(it.isEmpty())
+        }
+    }
+
 
     /**
      * Listeners

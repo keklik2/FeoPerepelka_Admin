@@ -3,6 +3,7 @@ package com.demo.feoperepelkaadmin.presentation.fragments.ordersList
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.demo.architecture.BaseFragment
+import com.demo.architecture.helpers.setVisibility
 import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.databinding.FragmentOrdersListBinding
 import com.demo.feoperepelkaadmin.server.models.OrderModel
@@ -17,7 +18,7 @@ class OrdersListFragment: BaseFragment(R.layout.fragment_orders_list) {
         addOrderBtnListener()
     }
     override var setupBinds: (() -> Unit)? = {
-
+        setupAdapterBind()
     }
 
     /**
@@ -36,25 +37,26 @@ class OrdersListFragment: BaseFragment(R.layout.fragment_orders_list) {
      */
     private fun addOrderBtnListener() {
         binding.olfFbAddOrder.setOnClickListener {
-            vm.goToDetailOrder(OrderModel(
-                "Title",
-                mutableMapOf(
-                    Pair("Test", 2),
-                    Pair("Test 1", 999),
-                    Pair("Test 2", 1001),
-                    Pair("Test 3", 1999),
-                    Pair("Test 4", 9999),
-                    Pair("Test 5", 10000000)
-                ),
-                "Customer",
-                "Address",
-                "Description",
-                "PhoneNumber",
-                Date().time
-            ))
+            vm.addOrder()
         }
     }
 
+
+    /**
+     * Binds
+     */
+    private fun setupAdapterBind() {
+        binding.olfRvOrders.adapter = adapter
+        vm::ordersList bind {
+            adapter.submitList(it)
+            binding.olfTvEmptyOrders.setVisibility(it.isEmpty())
+        }
+    }
+
+
+    /**
+     * Additional functions
+     */
     private fun goToCall(phoneNumber: String) {
 
     }

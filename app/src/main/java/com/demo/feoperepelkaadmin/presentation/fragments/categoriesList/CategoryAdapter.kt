@@ -9,7 +9,7 @@ import me.ibrahimyilmaz.kiel.adapterOf
 import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
 object CategoryAdapter {
-    fun get(onTitleChangedCallback: ((CategoryModel) -> Unit)? = null) =
+    fun get(onItemClickListener: ((CategoryModel) -> Unit)? = null) =
         adapterOf<CategoryModel> {
             diff(
                 areContentsTheSame = { old, new -> old.title == new.title && old.locked == new.locked },
@@ -19,9 +19,9 @@ object CategoryAdapter {
                 layoutResource = R.layout.item_category,
                 viewHolder = ::CategoryViewHolder,
                 onBindViewHolder = { vh, _, item ->
-                    // TODO("Change textView on textInputLayout")
-                    // TODO("Make category title changes on inputLayout change")
-                    // vh.binding.til.setOnTextChangedListener { onTitleChangedCallback?.invoke(item) }
+                    vh.itemView.setOnClickListener {
+                        onItemClickListener?.invoke(item)
+                    }
                     vh.binding.tvTitle.text = item.title
                     vh.binding.ivLockedIcon.setVisibility(item.locked)
                 }

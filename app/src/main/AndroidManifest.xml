@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.ActivitySecondary"
+            android:name=".presentation.SecondaryActivity"
             android:exported="true">
         </activity>
 

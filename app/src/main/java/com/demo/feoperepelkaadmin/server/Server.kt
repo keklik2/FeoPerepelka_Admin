@@ -111,14 +111,7 @@ object Server {
             put(ProductModel.WEIGHT_KEY, product.weight)
             put(ProductModel.PRICE_KEY, product.price)
             put(ProductModel.IMG_TITLE_KEY, product.imgTitle)
-            put(
-                ProductModel.IMG_KEY,
-                ParseFile(
-                    ByteArrayOutputStream().apply {
-                        product.img.compress(Bitmap.CompressFormat.PNG, 0, this)
-                    }.toByteArray()
-                )
-            )
+            put(ProductModel.IMG_KEY, ParseFile(product.getImgAsByteArray()))
             saveInBackground { e ->
                 onErrorCallback?.let {
                     if (e != null) {

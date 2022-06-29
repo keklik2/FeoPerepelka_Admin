@@ -1,18 +1,13 @@
 package com.demo.feoperepelkaadmin.server.converters
 
-import android.graphics.BitmapFactory
 import com.demo.feoperepelkaadmin.server.models.ProductModel
 import com.parse.ParseObject
 
 class ProductConverter {
 
     fun mapObjectToModel(parseObject: ParseObject): ProductModel {
-        val byteArray = parseObject.getParseFile(ProductModel.IMG_KEY)!!.data
-        val btm = BitmapFactory.decodeByteArray(
-            byteArray,
-            0,
-            byteArray.size
-        )
+        val byteArray: ByteArray = parseObject.getParseFile(ProductModel.IMG_KEY)!!.data
+
         return ProductModel(
             parseObject.getString(ProductModel.TITLE_KEY) ?: "",
             parseObject.getString(ProductModel.CATEGORY_KEY) ?: "",
@@ -21,7 +16,7 @@ class ProductConverter {
             parseObject.getDouble(ProductModel.WEIGHT_KEY),
             parseObject.getDouble(ProductModel.PRICE_KEY),
             parseObject.getString(ProductModel.IMG_TITLE_KEY) ?: "",
-            btm,
+            ProductModel.decodeImgFromByteArray(byteArray),
             parseObject
         )
     }

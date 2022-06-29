@@ -27,7 +27,7 @@ object OrderAdapter {
                 areItemsTheSame = { old, new -> old == new }
             )
             register(
-                layoutResource = R.layout.item_note,
+                layoutResource = R.layout.item_order,
                 viewHolder = ::OrderViewHolder,
                 onBindViewHolder = { vh, pos, item ->
                     vh.itemView.setOnClickListener {

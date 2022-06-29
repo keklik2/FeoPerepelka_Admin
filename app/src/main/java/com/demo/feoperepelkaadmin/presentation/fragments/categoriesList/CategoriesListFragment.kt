@@ -8,32 +8,50 @@ import com.demo.feoperepelkaadmin.databinding.FragmentCategoriesListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CategoriesListFragment: BaseFragment(R.layout.fragment_categories_list) {
+class CategoriesListFragment : BaseFragment(R.layout.fragment_categories_list) {
     override val binding: FragmentCategoriesListBinding by viewBinding()
     override val vm: CategoriesListViewModel by viewModels()
     override var setupListeners: (() -> Unit)? = {
         setupAddCategoryBtnListener()
     }
     override var setupBinds: (() -> Unit)? = {
-
+        setupAdapterBind()
     }
 
     /**
      * Individual variables
      */
     private val adapter by lazy {
-        CategoryAdapter.get {
-            // On title changes listener
-            // vh.updateCategory(it)
+        CategoryAdapter.get { vm.goToDetailCategoryScreen(it) }
+    }
+
+
+    /**
+     * Binds
+     */
+    private fun setupAdapterBind() {
+        binding.rvCategories.adapter = adapter
+        vm::categoriesList bind {
+            adapter.submitList(it)
         }
     }
+
 
     /**
      * Listeners
      */
     private fun setupAddCategoryBtnListener() {
         binding.fbAddCategory.setOnClickListener {
-            // vm.addCategory()
+            vm.goToDetailCategoryScreen()
         }
+    }
+
+
+    /**
+     * Overriden functions
+     */
+    override fun onResume() {
+        super.onResume()
+        vm.updateCategoriesList()
     }
 }

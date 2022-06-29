@@ -9,8 +9,7 @@
     app:cardBackgroundColor="@color/light_gray"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginTop="10dp">
+    android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -42,7 +41,7 @@
                     app:layout_constraintTop_toTopOf="parent"
 
                     app:srcCompat="@drawable/ic_image_err_gray"
-                    android:contentDescription="@string/iv_desc_prodduct_image" />
+                    android:contentDescription="@string/iv_desc_prodduct_image"/>
 
                 <ImageView
                     android:id="@+id/iv_status_enabled"

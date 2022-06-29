@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         bottomNavBar = findViewById<View>(R.id.nav_menu) as BottomNavigationBar
 
-//        if (!Login.isLogged()) router.replaceScreen(Screens.Login())
+        if (!Login.isLogged()) router.replaceScreen(Screens.LoginActivity())
 
         initViews()
         bottomNavBar.selectTab(1)

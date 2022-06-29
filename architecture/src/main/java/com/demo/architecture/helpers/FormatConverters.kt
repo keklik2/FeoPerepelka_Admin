@@ -47,7 +47,7 @@ fun dateToStrForDisplay(date: Long): String {
 fun dayOfWeekToResForDisplay(date: Long): Int {
     val calendar = GregorianCalendar.getInstance().apply { timeInMillis = date }
 
-    return when(calendar.get(GregorianCalendar.DAY_OF_WEEK)) {
+    return when (calendar.get(GregorianCalendar.DAY_OF_WEEK)) {
         GregorianCalendar.MONDAY -> R.string.monday
         GregorianCalendar.TUESDAY -> R.string.tuesday
         GregorianCalendar.WEDNESDAY -> R.string.wednesday
@@ -96,6 +96,22 @@ fun View.setVisibility(isVisible: Boolean) {
     this.visibility =
         if (isVisible) View.VISIBLE
         else View.INVISIBLE
+}
+
+fun <T> MutableCollection<T>.addAllNotExisting(list: List<T>) {
+    if (this.isEmpty()) this.addAll(list)
+    else {
+        for (i in list) {
+            var add = true
+            for (c in this) {
+                if (i == c) {
+                    add = false
+                    return
+                }
+            }
+            if (add) this.add(i)
+        }
+    }
 }
 
 //inline fun <reified T> genericType() = object: TypeToken<T>() {}.type

@@ -1,6 +1,5 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.noteDetail
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -35,6 +34,7 @@ class NoteDetailFragment: BaseFragment(R.layout.fragment_note_detail) {
                     tvImageUrl.text = it.imgTitle
                     tietDescription.setText(it.description)
                     tietWeight.setText(doubleToStr(it.weight))
+                    tietPrice.setText(doubleToStr(it.price))
                     spinnerStatus.setSelection(
                         if (it.enabled) 0
                         else 1
@@ -58,8 +58,9 @@ class NoteDetailFragment: BaseFragment(R.layout.fragment_note_detail) {
                 binding.tietWeight.text.toString(),
                 binding.tietPrice.text.toString(),
                 binding.tvImageUrl.text.toString(),
-                Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888) // TODO("Add bitmap convert")
+                vm.note!!.img // TODO("Add bitmap convert")
             )
+            vm.exit()
         }
     }
 
