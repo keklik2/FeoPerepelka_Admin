@@ -83,7 +83,10 @@ class OrderDetailFragment: BaseFragment(R.layout.fragment_order_detail) {
     }
 
     private fun setupAcceptBtnListener() {
-        binding.buttonAccept.setOnClickListener { vm.saveItem(binding.tietAddress.text.toString()) }
+        binding.buttonAccept.setOnClickListener {
+            vm.saveItem(binding.tietAddress.text.toString())
+            vm.exit()
+        }
     }
 
 

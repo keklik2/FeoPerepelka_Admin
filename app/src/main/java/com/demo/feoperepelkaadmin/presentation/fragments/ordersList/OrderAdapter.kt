@@ -39,7 +39,7 @@ object OrderAdapter {
                         tvPositions.text = item.getRefactoredShopList()
                         tvClient.text = item.customer
                         tvAddress.text = item.address
-                        tvDescription.text = item.address
+                        tvDescription.text = item.description
                         tvDate.text = dateToStrForDisplay(item.date)
                         buttonCall.text = item.phoneNumber
                         buttonCall.setOnClickListener { onPhoneButtonClickCallback?.invoke(item.phoneNumber) }

@@ -1,6 +1,7 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.noteDetail
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.demo.architecture.BaseFragment
@@ -11,13 +12,15 @@ import com.demo.feoperepelkaadmin.server.models.ProductModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NoteDetailFragment: BaseFragment(R.layout.fragment_note_detail) {
+class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
     override val binding: FragmentNoteDetailBinding by viewBinding()
     override val vm: NoteDetailViewModel by viewModels()
     override var setupListeners: (() -> Unit)? = {
         setupAcceptBtnListener()
     }
     override var setupBinds: (() -> Unit)? = {
+        bindCategories()
+
         bindFields()
     }
 
@@ -30,7 +33,6 @@ class NoteDetailFragment: BaseFragment(R.layout.fragment_note_detail) {
             pm?.let {
                 with(binding) {
                     tietNoteTitle.setText(it.title)
-                    // TODO ("Set category choosing from existing. If doesn't exist, add category to list for spinner & set it")
                     tvImageUrl.text = it.imgTitle
                     tietDescription.setText(it.description)
                     tietWeight.setText(doubleToStr(it.weight))
@@ -39,6 +41,32 @@ class NoteDetailFragment: BaseFragment(R.layout.fragment_note_detail) {
                         if (it.enabled) 0
                         else 1
                     )
+                }
+            }
+        }
+    }
+
+    private fun bindCategories() {
+        vm::categories bind {
+            if (it.isNullOrEmpty()) {
+                binding.spinnerCategory.adapter =
+                    ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        mutableListOf("- none -")
+                    )
+                binding.spinnerCategory.setSelection(0)
+            } else {
+                val adapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    it
+                )
+                binding.spinnerCategory.adapter = adapter
+
+                if (vm.note != null) {
+                    val pos = adapter.getPosition(vm.note!!.category)
+                    binding.spinnerCategory.setSelection(pos)
                 }
             }
         }
@@ -53,7 +81,7 @@ class NoteDetailFragment: BaseFragment(R.layout.fragment_note_detail) {
             vm.saveItem(
                 binding.tietNoteTitle.text.toString(),
                 binding.spinnerCategory.selectedItem as String,
-                true, //TODO("Get boolean from selected spinner item")
+                binding.spinnerStatus.selectedItemPosition == 0,
                 binding.tietDescription.text.toString(),
                 binding.tietWeight.text.toString(),
                 binding.tietPrice.text.toString(),
@@ -80,6 +108,7 @@ class NoteDetailFragment: BaseFragment(R.layout.fragment_note_detail) {
         super.onCreate(savedInstanceState)
         getArgs()
     }
+
 
     companion object {
         private const val NOTE_KEY = "note_key"
