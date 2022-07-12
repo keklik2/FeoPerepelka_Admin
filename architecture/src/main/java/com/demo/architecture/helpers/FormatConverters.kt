@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.view.View
+import androidx.core.view.isVisible
 import com.demo.architecture.R
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat

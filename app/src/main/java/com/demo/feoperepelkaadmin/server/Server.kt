@@ -1,6 +1,7 @@
 package com.demo.feoperepelkaadmin.server
 
-import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.demo.feoperepelkaadmin.server.converters.CategoryConverter
 import com.demo.feoperepelkaadmin.server.converters.OrderConverter
 import com.demo.feoperepelkaadmin.server.converters.ProductConverter
@@ -11,7 +12,6 @@ import com.parse.ParseException
 import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseQuery
-import java.io.ByteArrayOutputStream
 import java.util.*
 
 object Server {
@@ -42,6 +42,27 @@ object Server {
                     onSuccessCallback.invoke(objects.map { cConverter.mapObjectToModel(it) })
             }
         }
+    }
+
+    fun getAllCategories(
+        onErrorCallback: ((e: Exception) -> Unit)? = null
+    ): LiveData<List<CategoryModel>> {
+        val toReturn = MutableLiveData<List<CategoryModel>>()
+        ParseQuery.getQuery<ParseObject>(CategoryModel.ENTITY_NAME).apply {
+            orderByAscending(CategoryModel.TITLE_KEY)
+            findInBackground { objects, e ->
+                if (e != null) {
+                    onErrorCallback?.let {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
+                } else if (!objects.isNullOrEmpty())
+                    toReturn.value = objects.map { cConverter.mapObjectToModel(it) }
+            }
+        }
+        return toReturn
     }
 
     fun addOrUpdateCategory(
@@ -97,6 +118,27 @@ object Server {
                     onSuccessCallback.invoke(objects.map { pConverter.mapObjectToModel(it) })
             }
         }
+    }
+
+    fun getAllProducts(
+        onErrorCallback: ((e: Exception) -> Unit)? = null
+    ): LiveData<List<ProductModel>> {
+        val toReturn = MutableLiveData<List<ProductModel>>()
+        ParseQuery.getQuery<ParseObject>(ProductModel.ENTITY_NAME).apply {
+            orderByAscending(ProductModel.TITLE_KEY)
+            findInBackground { objects, e ->
+                if (e != null) {
+                    onErrorCallback?.let {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
+                } else if (!objects.isNullOrEmpty())
+                    toReturn.value = objects.map { pConverter.mapObjectToModel(it) }
+            }
+        }
+        return toReturn
     }
 
     fun addOrUpdateProduct(
@@ -156,6 +198,27 @@ object Server {
                     onSuccessCallback.invoke(objects.map { oConverter.mapObjectToModel(it) })
             }
         }
+    }
+
+    fun getAllOrders(
+        onErrorCallback: ((e: Exception) -> Unit)? = null
+    ): LiveData<List<OrderModel>> {
+        val toReturn = MutableLiveData<List<OrderModel>>()
+        ParseQuery.getQuery<ParseObject>(OrderModel.ENTITY_NAME).apply {
+            orderByDescending(OrderModel.DATE_KEY)
+            findInBackground { objects, e ->
+                if (e != null) {
+                    onErrorCallback?.let {
+                        when (e.code) {
+                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            else -> it(Exception(ERR_EXTRA))
+                        }
+                    }
+                } else if (!objects.isNullOrEmpty())
+                    toReturn.value = objects.map { oConverter.mapObjectToModel(it) }
+            }
+        }
+        return toReturn
     }
 
     fun updateOrder(

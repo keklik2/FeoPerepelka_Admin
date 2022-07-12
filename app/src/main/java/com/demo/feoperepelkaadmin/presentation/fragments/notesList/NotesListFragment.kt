@@ -1,13 +1,15 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.notesList
 
-import android.graphics.BitmapFactory
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.demo.architecture.BaseFragment
 import com.demo.architecture.helpers.setVisibility
 import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.databinding.FragmentNotesListBinding
 import dagger.hilt.android.AndroidEntryPoint
+import me.aartikov.sesame.loading.simple.Loading
 
 @AndroidEntryPoint
 class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
@@ -15,6 +17,7 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
     override val vm: NotesListViewModel by viewModels()
     override var setupListeners: (() -> Unit)? = {
         setupAddNoteBtnListener()
+        setupRecyclerScrollListener()
     }
     override var setupBinds: (() -> Unit)? = {
         setupProductsBind()
@@ -35,9 +38,30 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
      */
     private fun setupProductsBind() {
         binding.rvNotes.adapter = adapter
-        vm::prodList bind {
-            adapter.submitList(it)
-            binding.tvEmptyNotes.setVisibility(it.isEmpty())
+
+        vm::productsListState bind {
+            when(it) {
+                is Loading.State.Data -> {
+                    hideEmptyNotes()
+                    it.data.observe(viewLifecycleOwner) { list ->
+                        adapter.submitList(list)
+                        hideLoadingBar()
+                        showFb()
+                        if (list.isEmpty()) showEmptyNotes()
+                    }
+                }
+                is Loading.State.Loading -> {
+                    hideFb()
+                    hideEmptyNotes()
+                    showLoadingBar()
+                }
+                else -> {
+                    showFb()
+                    hideLoadingBar()
+                    showEmptyNotes()
+                    adapter.submitList(emptyList())
+                }
+            }
         }
     }
 
@@ -49,5 +73,36 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
         binding.fbAddNote.setOnClickListener {
             vm.goToAddNoteScreen()
         }
+    }
+
+    private fun setupRecyclerScrollListener() {
+        binding.rvNotes.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) if (isFbVisible()) hideFb()
+                if (dy < 0) if (!isFbVisible()) showFb()
+            }
+        })
+    }
+
+
+    /**
+     * Helper functions
+     */
+    private fun showLoadingBar() = binding.loadingBar.setVisibility(true)
+    private fun hideLoadingBar() = binding.loadingBar.setVisibility(false)
+    private fun showEmptyNotes() = binding.tvEmptyNotes.setVisibility(true)
+    private fun hideEmptyNotes() = binding.tvEmptyNotes.setVisibility(false)
+    private fun showFb() = binding.fbAddNote.show()
+    private fun hideFb() = binding.fbAddNote.hide()
+    private fun isFbVisible(): Boolean = binding.fbAddNote.isVisible
+
+
+    /**
+     * Overridden functions
+     */
+    override fun onResume() {
+        super.onResume()
+        vm.refreshData()
     }
 }
