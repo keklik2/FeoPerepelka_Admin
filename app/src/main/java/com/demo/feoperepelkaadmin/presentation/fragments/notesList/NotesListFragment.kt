@@ -5,6 +5,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.demo.architecture.BaseFragment
+import com.demo.architecture.files.PicturesPicker
 import com.demo.architecture.helpers.setVisibility
 import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.databinding.FragmentNotesListBinding
@@ -84,6 +85,8 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
             }
         })
     }
+
+
 
 
     /**

@@ -1,10 +1,5 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.notesList
 
-import android.R.attr.bitmap
-import android.graphics.Bitmap
-import android.graphics.Matrix
-import android.graphics.RectF
-import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.demo.architecture.helpers.doubleToStrForDisplay
@@ -34,13 +29,21 @@ object NoteAdapter {
                     with(vh.binding) {
                         tvTitle.text = item.title
                         tvDescription.text = item.description
-                        tvPrice.text = doubleToStrForDisplay(item.price)
-                        tvWeight.text = doubleToStrForDisplay(item.weight)
+                        tvPrice.text = String.format(
+                            vh.itemView.context.getString(R.string.sff_price),
+                            doubleToStrForDisplay(item.price)
+                        )
+
+                        tvWeight.text = String.format(
+                            vh.itemView.context.getString(R.string.sff_weight),
+                            doubleToStrForDisplay(item.weight)
+                        )
                         ivStatusEnabled.setVisibility(item.enabled)
                         ivStatusDisabled.setVisibility(!item.enabled)
                         Glide
                             .with(vh.itemView)
                             .load(item.img)
+                            .encodeQuality(80)
                             .centerCrop()
                             .into(ivProduct)
                     }

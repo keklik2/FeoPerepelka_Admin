@@ -5,7 +5,9 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.view.View
+import androidx.core.content.PermissionChecker
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.demo.architecture.R
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -81,6 +83,16 @@ fun percentsToStr(value: Double): String = "${value.toInt()}%"
 /**
  * Classes external functions
  */
+fun Fragment.isPermissionGranted(permission: String): Boolean {
+    context?.let {
+        return PermissionChecker.checkSelfPermission(
+            it,
+            permission
+        ) == PermissionChecker.PERMISSION_GRANTED
+    }
+    return false
+}
+
 fun Uri.getOriginalFileName(context: Context): String? {
     return try {
         context.contentResolver.query(this, null, null, null, null)?.use {

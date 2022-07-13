@@ -19,6 +19,7 @@ class CategoryDetailFragment: BaseFragment(R.layout.fragment_category_detail) {
     }
     override var setupBinds: (() -> Unit)? = {
         setupCategoryBind()
+        bindExit()
     }
 
 
@@ -30,6 +31,12 @@ class CategoryDetailFragment: BaseFragment(R.layout.fragment_category_detail) {
             it?.let {
                 binding.tietCategoryTitle.setText(it.title)
             }
+        }
+    }
+
+    private fun bindExit() {
+        vm::canCloseScreen bind {
+            if (it) vm.exit()
         }
     }
 

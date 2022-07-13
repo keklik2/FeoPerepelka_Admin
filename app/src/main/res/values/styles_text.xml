@@ -10,7 +10,7 @@
 
     <style name="entryTitleText.Note">
         <item name="android:textSize">20sp</item>
-        <item name="android:textAlignment">center</item>
+        <item name="android:textAlignment">viewStart</item>
     </style>
 
     <style name="entryTitleText.Order">
@@ -24,11 +24,16 @@
         <item name="fontFamily">@font/gotham_pro_narrow</item>
     </style>
 
+    <style name="weightText">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/gotham_pro_narrow</item>
+    </style>
+
     <!-- Price text for Note item -->
     <style name="priceText">
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/gotham_pro_narrow</item>
-        <item name="android:textColor">@color/light_green</item>
+        <item name="android:textColor">@color/light_black</item>
         <item name="textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
     </style>

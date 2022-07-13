@@ -35,16 +35,18 @@ class OrderDetailViewModel @Inject constructor(
             order!!.copy(
                 address = rAddress,
                 shopList = rProducts
-            )
-        ) {
-            showAlert(
-                AppDialogContainer(
-                    title = getString(R.string.dialog_error),
-                    message = it.toString(),
-                    positiveBtnCallback = { }
+            ),
+            onErrorCallback = {
+                showAlert(
+                    AppDialogContainer(
+                        title = getString(R.string.dialog_title_error),
+                        message = it.toString(),
+                        positiveBtnCallback = { }
+                    )
                 )
-            )
-        }
+            },
+            onSuccessCallback = { setCanCloseScreen() }
+        )
     }
 
     fun deleteOrder() {
@@ -52,22 +54,26 @@ class OrderDetailViewModel @Inject constructor(
             order!!
         ) {
             AppDialogContainer(
-                title = getString(R.string.dialog_error),
+                title = getString(R.string.dialog_title_error),
                 message = it.toString(),
-                positiveBtnCallback = {  }
+                positiveBtnCallback = { }
             )
         }
     }
 
     private fun refactorProducts(list: List<ProductItem>): MutableMap<String, Int> {
         val toReturn = mutableMapOf<String, Int>()
-        for (i in list) { toReturn[i.title] = i.amount }
+        for (i in list) {
+            toReturn[i.title] = i.amount
+        }
         return toReturn
     }
 
     private fun getProductItemsFromMap(map: Map<String, Int>): MutableList<ProductItem> {
         val toReturn = mutableListOf<ProductItem>()
-        for (p in map) { toReturn.add(ProductItem(p.key, p.value)) }
+        for (p in map) {
+            toReturn.add(ProductItem(p.key, p.value))
+        }
         return toReturn
     }
 
@@ -76,6 +82,14 @@ class OrderDetailViewModel @Inject constructor(
 
         }
         return ""
+    }
+
+    /**
+     * Fragment exit observer
+     */
+    var canCloseScreen by state(false)
+    private fun setCanCloseScreen() {
+        canCloseScreen = true
     }
 
 }

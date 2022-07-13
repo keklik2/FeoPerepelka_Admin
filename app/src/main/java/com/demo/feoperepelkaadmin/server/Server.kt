@@ -67,20 +67,26 @@ object Server {
 
     fun addOrUpdateCategory(
         category: CategoryModel,
-        onErrorCallback: ((e: Exception) -> Unit)? = null
+        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
     ) {
         with(category.parseObject) {
             put(CategoryModel.TITLE_KEY, category.title)
             put(CategoryModel.LOCKED_KEY, category.locked)
             saveInBackground { e ->
-                onErrorCallback?.let {
-                    if (e != null) {
+                if (e != null) {
+                    onErrorCallback?.let {
                         when (e.code) {
-                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            ParseException.CONNECTION_FAILED -> it(
+                                Exception(
+                                    ERR_CONNECTION_FAILED
+                                )
+                            )
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
                 }
+                else onSuccessCallback?.invoke()
             }
         }
     }
@@ -143,7 +149,8 @@ object Server {
 
     fun addOrUpdateProduct(
         product: ProductModel,
-        onErrorCallback: ((e: Exception) -> Unit)? = null
+        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
     ) {
         with(product.parseObject!!) {
             put(ProductModel.TITLE_KEY, product.title)
@@ -155,14 +162,19 @@ object Server {
             put(ProductModel.IMG_TITLE_KEY, product.imgTitle)
             put(ProductModel.IMG_KEY, ParseFile(product.getImgAsByteArray()))
             saveInBackground { e ->
-                onErrorCallback?.let {
-                    if (e != null) {
+                if (e != null) {
+                    onErrorCallback?.let {
                         when (e.code) {
-                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            ParseException.CONNECTION_FAILED -> it(
+                                Exception(
+                                    ERR_CONNECTION_FAILED
+                                )
+                            )
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
                 }
+                else onSuccessCallback?.invoke()
             }
         }
     }
@@ -222,7 +234,9 @@ object Server {
     }
 
     fun updateOrder(
-        order: OrderModel, onErrorCallback: ((e: Exception) -> Unit)? = null
+        order: OrderModel,
+        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
     ) {
         with(order.parseObject) {
             put(OrderModel.TITLE_KEY, order.title)
@@ -233,14 +247,19 @@ object Server {
             put(OrderModel.PHONE_KEY, order.phoneNumber)
             put(OrderModel.DATE_KEY, order.date)
             saveInBackground { e ->
-                onErrorCallback?.let {
-                    if (e != null) {
+                if (e != null) {
+                    onErrorCallback?.let {
                         when (e.code) {
-                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
+                            ParseException.CONNECTION_FAILED -> it(
+                                Exception(
+                                    ERR_CONNECTION_FAILED
+                                )
+                            )
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
                 }
+                else onSuccessCallback?.invoke()
             }
         }
     }

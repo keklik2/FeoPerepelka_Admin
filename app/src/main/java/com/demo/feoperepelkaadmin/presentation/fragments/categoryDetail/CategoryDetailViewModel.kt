@@ -16,7 +16,7 @@ import javax.inject.Inject
 class CategoryDetailViewModel @Inject constructor(
     private val app: Application,
     override val router: Router
-): BaseViewModel(app) {
+) : BaseViewModel(app) {
 
     var category: CategoryModel? by state(null)
 
@@ -25,21 +25,30 @@ class CategoryDetailViewModel @Inject constructor(
 
         Server.addOrUpdateCategory(
             if (category != null) category!!.copy(title = rTitle)
-            else CategoryModel(rTitle, LOCKED)
-        ) {
-            showAlert(
-                AppDialogContainer(
-                    title = getString(R.string.dialog_error),
-                    message = it.toString(),
-                    positiveBtnCallback = { }
+            else CategoryModel(rTitle, LOCKED),
+            onErrorCallback = {
+                showAlert(
+                    AppDialogContainer(
+                        title = getString(R.string.dialog_title_error),
+                        message = it.toString(),
+                        positiveBtnCallback = { }
+                    )
                 )
-            )
-        }
-        exit()
+            },
+            onSuccessCallback = { setCanCloseScreen() }
+        )
     }
 
     companion object {
         private const val LOCKED = false
     }
 
+
+    /**
+     * Fragment exit observer
+     */
+    var canCloseScreen by state(false)
+    private fun setCanCloseScreen() {
+        canCloseScreen = true
+    }
 }

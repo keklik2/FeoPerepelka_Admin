@@ -59,25 +59,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/tv_client_const"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-
-                app:layout_constraintTop_toBottomOf="@+id/til_address"
-                app:layout_constraintStart_toStartOf="parent"
-
-                style="@style/constText"
-                android:textStyle="bold"
-                android:text="@string/const_client"/>
-
-            <TextView
                 android:id="@+id/tv_client"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
+                android:layout_margin="8dp"
 
-                app:layout_constraintTop_toBottomOf="@+id/tv_client_const"
+                android:drawableStart="@drawable/ic_account_dark_gray"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
+
+                app:layout_constraintTop_toBottomOf="@+id/til_address"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
 
@@ -85,79 +76,48 @@
                 tools:text="Пятничкин Вячеслав"/>
 
             <TextView
-                android:id="@+id/tv_description_const"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
 
                 app:layout_constraintTop_toBottomOf="@+id/tv_client"
                 app:layout_constraintStart_toStartOf="parent"
-
-                style="@style/constText"
-                android:textStyle="bold"
-                android:text="@string/const_description"/>
-
-            <TextView
-                android:id="@+id/tv_description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-
-                app:layout_constraintTop_toBottomOf="@+id/tv_description_const"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+
+                android:drawableStart="@drawable/ic_comment_dark_gray"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
 
                 style="@style/constText"
                 tools:text="Звонить с 10:00 до 20:00 в любой день"/>
 
             <TextView
-                android:id="@+id/tv_date_const"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
 
                 app:layout_constraintTop_toBottomOf="@+id/tv_description"
                 app:layout_constraintStart_toStartOf="parent"
-
-                style="@style/constText"
-                android:textStyle="bold"
-                android:text="@string/const_date"/>
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-
-                app:layout_constraintTop_toBottomOf="@+id/tv_date_const"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+
+                android:drawableStart="@drawable/ic_time_dark_gray"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
 
                 style="@style/constText"
                 tools:text="18.02.2022"/>
-
-            <TextView
-                android:id="@+id/tv_products_const"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-
-                app:layout_constraintTop_toBottomOf="@+id/tv_date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                android:text="@string/const_positions"
-                style="@style/constText"
-                android:textStyle="bold"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_products"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="4dp"
                 android:paddingBottom="4dp"
 
-                app:layout_constraintTop_toBottomOf="@+id/tv_products_const"
+                app:layout_constraintTop_toBottomOf="@+id/tv_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
 

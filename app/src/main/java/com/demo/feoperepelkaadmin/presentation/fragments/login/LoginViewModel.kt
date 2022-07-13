@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(
             success = false
             showAlert(
                 AppDialogContainer(
-                    title = getString(R.string.dialog_error),
+                    title = getString(R.string.dialog_title_error),
                     message = it.toString(),
                     positiveBtnCallback = {  }
                 )

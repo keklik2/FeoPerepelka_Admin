@@ -34,6 +34,10 @@
     <string name="const_disable">Недоступно</string>
     <string name="const_login">Вход</string>
 
+    <!-- Strings For Formatting -->
+    <string name="sff_weight">%sГр</string>
+    <string name="sff_price">%s₽</string>
+
     <!-- Buttons -->
     <string name="button_accept">Принять</string>
     <string name="button_decline">Отмена</string>
@@ -41,6 +45,7 @@
     <string name="button_try_again">Попробовать снова</string>
     <string name="button_add">+</string>
     <string name="button_delete">-</string>
+    <string name="button_add_img">Выбрать изображение</string>
 
     <!-- Text input layouts Errors -->
     <string name="category_title_error">Недопустимый заголовок</string>
@@ -89,7 +94,8 @@
 
     <!-- Dialogs -->
     <string name="dialog_title_error">Ошибка</string>
-    <string name="dialog_error">Ошибка</string>
+    <string name="dialog_error">Произошла непредвиденная ошибка</string>
+    <string name="dialog_empty_img">Вы не выбрали изображение для товара</string>
 
     <!-- String-Arrays for Spinners -->
     <string-array name="availabilities">

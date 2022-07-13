@@ -25,6 +25,7 @@ class OrderDetailFragment: BaseFragment(R.layout.fragment_order_detail) {
     override var setupBinds: (() -> Unit)? = {
         bindOrder()
         bindProducts()
+        bindExit()
     }
 
     /**
@@ -60,8 +61,12 @@ class OrderDetailFragment: BaseFragment(R.layout.fragment_order_detail) {
         binding.rvProducts.adapter = adapter
         vm::products bind {
             adapter.submitList(it)
-            Log.d("vmtest", "size: ${it.size}")
-            Log.d("vmtest", "orders size: ${vm.order!!.shopList.size}")
+        }
+    }
+
+    private fun bindExit() {
+        vm::canCloseScreen bind {
+            if (it) vm.exit()
         }
     }
 
@@ -85,7 +90,6 @@ class OrderDetailFragment: BaseFragment(R.layout.fragment_order_detail) {
     private fun setupAcceptBtnListener() {
         binding.buttonAccept.setOnClickListener {
             vm.saveItem(binding.tietAddress.text.toString())
-            vm.exit()
         }
     }
 

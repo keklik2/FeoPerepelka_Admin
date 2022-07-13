@@ -36,5 +36,4 @@ class NotesListViewModel @Inject constructor(
             _productsListLoading.refresh()
         }
     }
-
 }

@@ -1,11 +1,18 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.noteDetail
 
+import android.graphics.ImageDecoder
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import com.demo.architecture.BaseFragment
+import com.demo.architecture.files.PicturesPicker
 import com.demo.architecture.helpers.doubleToStr
+import com.demo.architecture.helpers.setVisibility
 import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.databinding.FragmentNoteDetailBinding
 import com.demo.feoperepelkaadmin.server.models.ProductModel
@@ -17,11 +24,17 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
     override val vm: NoteDetailViewModel by viewModels()
     override var setupListeners: (() -> Unit)? = {
         setupAcceptBtnListener()
+        setupPicturePickerListener()
+        setupRestoreListener()
     }
     override var setupBinds: (() -> Unit)? = {
         bindCategories()
-
         bindFields()
+        bindGetBtm()
+        bindExit()
+    }
+    private val filePicker = PicturesPicker(this) {
+        vm.imgUri = it
     }
 
 
@@ -33,7 +46,6 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
             pm?.let {
                 with(binding) {
                     tietNoteTitle.setText(it.title)
-                    tvImageUrl.text = it.imgTitle
                     tietDescription.setText(it.description)
                     tietWeight.setText(doubleToStr(it.weight))
                     tietPrice.setText(doubleToStr(it.price))
@@ -43,6 +55,23 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
                     )
                 }
             }
+        }
+        vm::imgTitle bind {
+            if(!it.isNullOrBlank() && it.isNotBlank()) binding.addImgBtn.text = it
+        }
+        vm::imgBtm bind {
+            if (it != null) {
+                Glide
+                    .with(requireActivity())
+                    .load(it)
+                    .encodeQuality(60)
+                    .centerCrop()
+                    .into(binding.ivProduct)
+
+                if (vm.note == null || (vm.note != null && vm.note!!.img != it)) binding.btnRestore.setVisibility(true)
+                else binding.btnRestore.setVisibility(false)
+            }
+            else binding.btnRestore.setVisibility(false)
         }
     }
 
@@ -72,6 +101,25 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
         }
     }
 
+    private fun bindGetBtm() {
+        vm.decodeBitmap bind {
+            vm.imgBtm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                ImageDecoder.decodeBitmap(
+                    ImageDecoder.createSource(
+                        requireContext().contentResolver,
+                        it
+                    )
+                )
+            else MediaStore.Images.Media.getBitmap(requireContext().contentResolver, it)
+        }
+    }
+
+    private fun bindExit() {
+        vm::canCloseScreen bind {
+            if (it) vm.exit()
+        }
+    }
+
 
     /**
      * Listeners
@@ -84,11 +132,33 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
                 binding.spinnerStatus.selectedItemPosition == 0,
                 binding.tietDescription.text.toString(),
                 binding.tietWeight.text.toString(),
-                binding.tietPrice.text.toString(),
-                binding.tvImageUrl.text.toString(),
-                vm.note!!.img // TODO("Add bitmap convert")
+                binding.tietPrice.text.toString()
             )
-            vm.exit()
+        }
+    }
+
+    private fun setupPicturePickerListener() {
+        binding.addImgBtn.setOnClickListener {
+            filePicker.openPicturesPicker()
+        }
+    }
+
+    private fun setupRestoreListener() {
+        binding.btnRestore.setOnClickListener {
+            vm.imgUri = null
+            if (vm.note != null) {
+                vm.imgBtm = vm.note!!.img
+                vm.imgTitle = vm.note!!.imgTitle
+            }
+            else {
+                vm.imgBtm = null
+                vm.imgTitle = null
+                binding.addImgBtn.text = getString(R.string.button_add_img)
+                Glide
+                    .with(requireActivity())
+                    .load(R.drawable.ic_image_err_gray)
+                    .into(binding.ivProduct)
+            }
         }
     }
 
@@ -109,6 +179,9 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
         getArgs()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
 
     companion object {
         private const val NOTE_KEY = "note_key"

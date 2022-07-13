@@ -32,7 +32,7 @@ class OrdersListViewModel @Inject constructor(
     fun addOrder() {
         Server.addTestOrder{
             AppDialogContainer(
-                title = getString(R.string.dialog_error),
+                title = getString(R.string.dialog_title_error),
                 message = it.toString(),
                 positiveBtnCallback = {  },
             )
