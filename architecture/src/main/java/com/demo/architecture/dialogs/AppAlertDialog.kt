@@ -16,6 +16,7 @@ class AppAlertDialog(
             container.title?.let { setTitle(it) }
             container.negativeBtnCallback?.let { setNegativeButton(R.string.dialog_negative) { _, _ -> it() } }
             container.neutralBtnCallback?.let { setNeutralButton(R.string.dialog_neutral) { _, _ -> it() } }
+            container.dismissCallback?.let { setOnDismissListener { it() } }
         }.create()
     }
 }

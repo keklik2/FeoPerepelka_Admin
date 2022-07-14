@@ -20,7 +20,7 @@ import javax.inject.Inject
 class OrdersListViewModel @Inject constructor(
     private val app: Application,
     override val router: Router
-): BaseViewModel(app) {
+) : BaseViewModel(app) {
 
     private val _ordersListLoading = OrdinaryLoading(
         viewModelScope,
@@ -30,13 +30,18 @@ class OrdersListViewModel @Inject constructor(
     fun goToDetailOrder(order: OrderModel) = router.navigateTo(Screens.OrderDetailActivity(order))
 
     fun addOrder() {
-        Server.addTestOrder{
-            AppDialogContainer(
-                title = getString(R.string.dialog_title_error),
-                message = it.toString(),
-                positiveBtnCallback = {  },
-            )
-        }
+        Server.addTestOrder(
+            {
+                showAlert(
+                    AppDialogContainer(
+                        title = getString(R.string.dialog_title_error),
+                        message = it.toString(),
+                        positiveBtnCallback = { },
+                    )
+                )
+            },
+            { refreshData() }
+        )
     }
 
     fun refreshData() {

@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.demo.architecture.dialogs.AppDatePickerContainer
 import com.demo.architecture.dialogs.AppDialogContainer
+import com.demo.architecture.dialogs.AppListDialogContainer
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ abstract class BaseViewModel(
 ): AndroidViewModel(app), PropertyHost {
 
     val showAlert = command<AppDialogContainer>()
+    val showListDialog = command<AppListDialogContainer>()
     val showToast = command<String>()
     val showToastLong = command<String>()
     val showDatePicker = command<AppDatePickerContainer>()

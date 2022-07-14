@@ -38,8 +38,9 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                } else if (!objects.isNullOrEmpty())
+                } else if (objects != null)
                     onSuccessCallback.invoke(objects.map { cConverter.mapObjectToModel(it) })
+                else onSuccessCallback.invoke(mutableListOf())
             }
         }
     }
@@ -58,8 +59,9 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                } else if (!objects.isNullOrEmpty())
+                } else if (objects != null)
                     toReturn.value = objects.map { cConverter.mapObjectToModel(it) }
+                else toReturn.value = mutableListOf()
             }
         }
         return toReturn
@@ -104,8 +106,7 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                }
-                else onSuccessCallback?.invoke()
+                } else onSuccessCallback?.invoke()
             }
         } else onErrorCallback?.invoke(Exception(ERR_CATEGORY_LOCKED))
     }
@@ -124,8 +125,9 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                } else if (!objects.isNullOrEmpty())
+                } else if (objects != null)
                     onSuccessCallback.invoke(objects.map { pConverter.mapObjectToModel(it) })
+                else onSuccessCallback.invoke(mutableListOf())
             }
         }
     }
@@ -144,8 +146,9 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                } else if (!objects.isNullOrEmpty())
+                } else if (objects != null)
                     toReturn.value = objects.map { pConverter.mapObjectToModel(it) }
+                else toReturn.value = mutableListOf()
             }
         }
         return toReturn
@@ -213,8 +216,9 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                } else if (!objects.isNullOrEmpty())
+                } else if (objects != null)
                     onSuccessCallback.invoke(objects.map { oConverter.mapObjectToModel(it) })
+                else onSuccessCallback.invoke(mutableListOf())
             }
         }
     }
@@ -233,8 +237,9 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                } else if (!objects.isNullOrEmpty())
+                } else if (objects != null)
                     toReturn.value = objects.map { oConverter.mapObjectToModel(it) }
+                else toReturn.value = mutableListOf()
             }
         }
         return toReturn
@@ -276,7 +281,10 @@ object Server {
      * !! Will be deleted in release version
      */
     private var count = 0
-    fun addTestOrder(onErrorCallback: ((e: Exception) -> Unit)? = null) {
+    fun addTestOrder(
+        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
+    ) {
         ParseObject(OrderModel.ENTITY_NAME).apply {
             put(OrderModel.TITLE_KEY, "Order [$count]")
             put(
@@ -293,14 +301,15 @@ object Server {
             put(OrderModel.PHONE_KEY, "+7999999999${count++}")
             put(OrderModel.DATE_KEY, Date().time)
             saveInBackground { e ->
-                onErrorCallback?.let {
-                    if (e != null) {
+                if (e != null) {
+                    onErrorCallback?.let {
                         when (e.code) {
                             ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
                 }
+                else onSuccessCallback?.invoke()
             }
         }
     }

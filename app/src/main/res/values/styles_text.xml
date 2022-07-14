@@ -8,6 +8,10 @@
         <item name="textAllCaps">true</item>
     </style>
 
+    <style name="entryTitleText.notCaps">
+        <item name="textAllCaps">false</item>
+    </style>
+
     <style name="entryTitleText.Note">
         <item name="android:textSize">20sp</item>
         <item name="android:textAlignment">viewStart</item>

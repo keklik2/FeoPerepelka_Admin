@@ -11,6 +11,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.demo.architecture.dialogs.AppAlertDialog
 import com.demo.architecture.dialogs.AppDialogContainer
+import com.demo.architecture.dialogs.AppListDialogContainer
+import com.demo.architecture.dialogs.AppSingleChoiceListDialog
 import me.aartikov.sesame.property.PropertyObserver
 import java.util.*
 
@@ -43,6 +45,10 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes), Pro
         AppAlertDialog(container).show(childFragmentManager, DIALOG_TAG)
     }
 
+    fun makeListDialog(container: AppListDialogContainer) {
+        AppSingleChoiceListDialog(container).show(childFragmentManager, DIALOG_TAG)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBackPresser()
@@ -66,6 +72,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes), Pro
         }
         vm.showToast bind { makeToast(it) }
         vm.showToastLong bind { makeToast(it, true) }
+        vm.showListDialog bind { makeListDialog(it) }
     }
 
     companion object {

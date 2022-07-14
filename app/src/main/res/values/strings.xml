@@ -43,8 +43,9 @@
     <string name="button_decline">Отмена</string>
     <string name="button_login">Войти</string>
     <string name="button_try_again">Попробовать снова</string>
-    <string name="button_add">+</string>
-    <string name="button_delete">-</string>
+    <string name="button_add_sign">+</string>
+    <string name="button_delete_sign">-</string>
+    <string name="button_add_text">Добавить</string>
     <string name="button_add_img">Выбрать изображение</string>
 
     <!-- Text input layouts Errors -->
@@ -107,9 +108,13 @@
         пна. Вы уверены, что хотите удалить продукт?</string>
     <string name="dialog_title_category_locked">Заблокированная категория</string>
     <string name="dialog_category_locked">Заблокированную категорию нельзя удалить, но можно изменить!</string>
+    <string name="dialog_title_products_choose">Выберите продукт</string>
 
     <!-- Toasts -->
     <string name="toast_msg_copied">Текст скопирован</string>
+    <string name="toast_product_exists">Продукт уже в списке</string>
+    <string name="toast_product_added">Продукт добавлен</string>
+    <string name="toast_product_empty">Список продуктов пуст</string>
 
     <!-- String-Arrays for Spinners -->
     <string-array name="availabilities">

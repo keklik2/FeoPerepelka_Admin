@@ -1,5 +1,6 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.notesList
 
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper

@@ -33,6 +33,10 @@ object ProductAdapter {
                                 onAmountChangedCallback?.invoke(item)
                             }
                         }
+                        btnDelete.setOnClickListener {
+                            item.amount = 0
+                            onAmountChangedCallback?.invoke(item)
+                        }
                     }
                 }
             )

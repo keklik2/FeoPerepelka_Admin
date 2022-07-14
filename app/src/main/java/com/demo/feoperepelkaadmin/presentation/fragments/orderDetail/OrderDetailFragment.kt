@@ -32,6 +32,7 @@ class OrderDetailFragment : BaseFragment(R.layout.fragment_order_detail) {
         setupDeleteBtnListener()
         setupPhoneBtnListener()
         setupAddressChangedListener()
+        setupAddProductButton()
     }
     override var setupBinds: (() -> Unit)? = {
         bindOrder()
@@ -151,6 +152,12 @@ class OrderDetailFragment : BaseFragment(R.layout.fragment_order_detail) {
                 }
                 validate(addressValidation)
             }
+        }
+    }
+
+    private fun setupAddProductButton() {
+        binding.btnAddProduct.setOnClickListener {
+            vm.showProductsList()
         }
     }
 

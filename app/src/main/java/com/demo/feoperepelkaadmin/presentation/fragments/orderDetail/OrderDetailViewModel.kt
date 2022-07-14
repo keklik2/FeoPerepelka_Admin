@@ -3,6 +3,7 @@ package com.demo.feoperepelkaadmin.presentation.fragments.orderDetail
 import android.app.Application
 import com.demo.architecture.BaseViewModel
 import com.demo.architecture.dialogs.AppDialogContainer
+import com.demo.architecture.dialogs.AppListDialogContainer
 import com.demo.architecture.helpers.dateToStrForDisplay
 import com.demo.architecture.helpers.refactorString
 import com.demo.feoperepelkaadmin.R
@@ -23,6 +24,7 @@ class OrderDetailViewModel @Inject constructor(
 
     var order: OrderModel? by state(null)
     var products: MutableList<ProductItem> by state(mutableListOf())
+    var allProducts: MutableList<String>? = null
 
     val switchLoading = command<Boolean>()
 
@@ -76,7 +78,7 @@ class OrderDetailViewModel @Inject constructor(
                         { setCanCloseScreen() }
                     )
                 },
-                negativeBtnCallback = {  }
+                negativeBtnCallback = { }
             )
         )
     }
@@ -117,6 +119,56 @@ class OrderDetailViewModel @Inject constructor(
         if (item.amount <= 0) products = products.toMutableList().apply {
             remove(item)
         }
+    }
+
+    fun showProductsList() {
+        switchLoading(true)
+        if (allProducts.isNullOrEmpty()) getNotesForList { onNotesReceived(it) }
+        else onNotesReceived(allProducts!!)
+    }
+
+    private fun onNotesReceived(list: List<String>) {
+        if (list.isNullOrEmpty()) {
+            showToast(getString(R.string.toast_product_empty))
+            switchLoading(false)
+        }
+        else
+            showListDialog(
+                AppListDialogContainer(
+                    getString(R.string.dialog_title_products_choose),
+                    list,
+                    { addProduct(it) },
+                    { switchLoading(false) }
+                )
+            )
+    }
+
+    private fun getNotesForList(onSuccess: (List<String>) -> Unit) {
+        Server.getAllProducts(
+            {
+                switchLoading(false)
+                val newList = it.map { it.title }
+                allProducts = newList.toMutableList()
+                onSuccess(newList)
+            },
+            {
+                switchLoading(false)
+                AppDialogContainer(
+                    title = getString(R.string.dialog_title_error),
+                    message = it.toString(),
+                    positiveBtnCallback = { }
+                )
+            }
+        )
+    }
+
+    private fun addProduct(title: String) {
+        switchLoading(true)
+        if (!products.map { it.title }.contains(title)) {
+            products = products.toMutableList().apply { add(ProductItem(title, 1)) }
+            showToast(getString(R.string.toast_product_added))
+        } else showToast(getString(R.string.toast_product_exists))
+        switchLoading(false)
     }
 
 
