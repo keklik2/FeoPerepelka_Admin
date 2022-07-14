@@ -9,6 +9,7 @@ import com.demo.feoperepelkaadmin.presentation.Screens
 import com.demo.feoperepelkaadmin.server.Login
 import com.github.terrakok.cicerone.Router
 import dagger.hilt.android.lifecycle.HiltViewModel
+import me.aartikov.sesame.property.command
 import me.aartikov.sesame.property.state
 import javax.inject.Inject
 
@@ -16,28 +17,30 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val app: Application,
     override val router: Router
-): BaseViewModel(app) {
+) : BaseViewModel(app) {
+
+    val switchLoading = command<Boolean>()
 
     fun tryLogin(login: String?, password: String?) {
         val rLogin = refactorString(login)
         val rPassword = refactorString(password)
 
-        var success = true
+        switchLoading(true)
         Login.login(
             rLogin,
-            rPassword
-        ) {
-            success = false
-            showAlert(
-                AppDialogContainer(
-                    title = getString(R.string.dialog_title_error),
-                    message = it.toString(),
-                    positiveBtnCallback = {  }
+            rPassword,
+            {
+                switchLoading(false)
+                showAlert(
+                    AppDialogContainer(
+                        title = getString(R.string.dialog_title_error),
+                        message = it.toString(),
+                        positiveBtnCallback = { }
+                    )
                 )
-            )
-        }
-
-        if (success) goToMainActivity()
+            },
+            { goToMainActivity() }
+        )
     }
 
     private fun goToMainActivity() = router.replaceScreen(Screens.MainActivityScreen())

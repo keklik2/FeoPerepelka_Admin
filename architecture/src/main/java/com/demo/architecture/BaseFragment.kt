@@ -3,12 +3,14 @@ package com.demo.architecture
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.demo.architecture.dialogs.AppAlertDialog
+import com.demo.architecture.dialogs.AppDialogContainer
 import me.aartikov.sesame.property.PropertyObserver
 import java.util.*
 
@@ -33,6 +35,14 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes), Pro
         })
     }
 
+    fun makeToast(message: String, isLong: Boolean = false) {
+        Toast.makeText(requireActivity(), message, if(isLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
+    }
+
+    fun makeAlert(container: AppDialogContainer) {
+        AppAlertDialog(container).show(childFragmentManager, DIALOG_TAG)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBackPresser()
@@ -44,9 +54,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes), Pro
         setupListeners?.invoke()
         setupBinds?.invoke()
 
-        vm.showAlert bind {
-            AppAlertDialog(it).show(childFragmentManager, DIALOG_TAG)
-        }
+        vm.showAlert bind { makeAlert(it) }
         vm.showDatePicker bind {
             DatePickerDialog(
                 requireContext(),
@@ -56,6 +64,8 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes), Pro
                 it.calendar.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+        vm.showToast bind { makeToast(it) }
+        vm.showToastLong bind { makeToast(it, true) }
     }
 
     companion object {

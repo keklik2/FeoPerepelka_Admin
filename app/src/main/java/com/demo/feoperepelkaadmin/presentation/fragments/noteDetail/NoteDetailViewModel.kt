@@ -38,6 +38,7 @@ class NoteDetailViewModel @Inject constructor(
     var imgTitle: String? by state(null)
 
     val decodeBitmap = command<Uri>()
+    val switchLoading = command<Boolean>()
 
     init {
         getCategories()
@@ -85,6 +86,7 @@ class NoteDetailViewModel @Inject constructor(
         val rPrice = refactorDouble(price)
 
         if (imgBtm != null && imgTitle != null) {
+            switchLoading(true)
             Server.addOrUpdateProduct(
                 ProductModel(
                     rTitle,
@@ -98,6 +100,7 @@ class NoteDetailViewModel @Inject constructor(
                     note?.parseObject ?: ParseObject(ProductModel.ENTITY_NAME)
                 ),
                 onErrorCallback = {
+                    switchLoading(false)
                     showAlert(
                         AppDialogContainer(
                             title = getString(R.string.dialog_title_error),
@@ -108,13 +111,16 @@ class NoteDetailViewModel @Inject constructor(
                 },
                 onSuccessCallback = { setCanCloseScreen() }
             )
-        } else showAlert(
-            AppDialogContainer(
-                title = getString(R.string.dialog_title_error),
-                message = getString(R.string.dialog_empty_img),
-                positiveBtnCallback = { }
+        } else {
+            switchLoading(false)
+            showAlert(
+                AppDialogContainer(
+                    title = getString(R.string.dialog_title_error),
+                    message = getString(R.string.dialog_empty_img),
+                    positiveBtnCallback = { }
+                )
             )
-        )
+        }
     }
 
     private fun getCategories() {

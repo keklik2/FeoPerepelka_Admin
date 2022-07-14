@@ -11,7 +11,8 @@ import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 object OrderAdapter {
     fun get(
         onClickCallback: ((OrderModel) -> Unit)? = null,
-        onPhoneButtonClickCallback: ((String) -> Unit)? = null
+        onPhoneButtonClickCallback: ((String) -> Unit)? = null,
+        onCopyButtonClickCallback: ((String) -> Unit)? = null
     ) =
         adapterOf<OrderModel> {
             diff(
@@ -43,10 +44,24 @@ object OrderAdapter {
                         tvDate.text = dateToStrForDisplay(item.date)
                         buttonCall.text = item.phoneNumber
                         buttonCall.setOnClickListener { onPhoneButtonClickCallback?.invoke(item.phoneNumber) }
+                        buttonCopy.setOnClickListener { onCopyButtonClickCallback?.invoke(getOrderAsCopiedText(item)) }
                     }
                 }
             )
         }
+
+    fun getOrderAsCopiedText(order: OrderModel): String {
+        val builder = StringBuilder()
+        with(builder) {
+            append(order.customer).append("\n")
+            append(dateToStrForDisplay(order.date)).append("\n")
+            append(order.address).append("\n")
+            append(order.description).append("\n")
+            append(order.phoneNumber).append("\n")
+            append(order.getRefactoredShopList())
+        }
+        return builder.toString()
+    }
 }
 
 class OrderViewHolder(view: View) : RecyclerViewHolder<OrderModel>(view) {

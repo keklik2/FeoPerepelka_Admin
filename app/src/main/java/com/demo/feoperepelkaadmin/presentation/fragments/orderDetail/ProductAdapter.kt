@@ -10,7 +10,7 @@ object ProductAdapter {
     fun get(onAmountChangedCallback: ((ProductItem) -> Unit)? = null) =
         adapterOf<ProductItem> {
             diff(
-                areContentsTheSame = { old, new -> old == new },
+                areContentsTheSame = { old, new -> old.title == new.title && old.amount == new.amount },
                 areItemsTheSame = { old, new -> old == new }
             )
             register(

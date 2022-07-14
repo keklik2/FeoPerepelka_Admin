@@ -1,5 +1,10 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.ordersList
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -8,11 +13,13 @@ import com.demo.architecture.BaseFragment
 import com.demo.architecture.helpers.setVisibility
 import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.databinding.FragmentOrdersListBinding
+import com.demo.feoperepelkaadmin.presentation.fragments.orderDetail.OrderDetailFragment
+import com.demo.feoperepelkaadmin.server.models.OrderModel
 import dagger.hilt.android.AndroidEntryPoint
 import me.aartikov.sesame.loading.simple.Loading
 
 @AndroidEntryPoint
-class OrdersListFragment: BaseFragment(R.layout.fragment_orders_list) {
+class OrdersListFragment : BaseFragment(R.layout.fragment_orders_list) {
     override val binding: FragmentOrdersListBinding by viewBinding()
     override val vm: OrdersListViewModel by viewModels()
     override var setupListeners: (() -> Unit)? = {
@@ -29,7 +36,8 @@ class OrdersListFragment: BaseFragment(R.layout.fragment_orders_list) {
     private val adapter by lazy {
         OrderAdapter.get(
             { vm.goToDetailOrder(it) },
-            { goToCall(it) }
+            { goToCall(it) },
+            { copyOrder(it) }
         )
     }
 
@@ -61,7 +69,7 @@ class OrdersListFragment: BaseFragment(R.layout.fragment_orders_list) {
         binding.rvOrders.adapter = adapter
 
         vm::ordersListState bind {
-            when(it) {
+            when (it) {
                 is Loading.State.Data -> {
                     hideEmptyOrders()
                     it.data.observe(viewLifecycleOwner) { list ->
@@ -91,7 +99,23 @@ class OrdersListFragment: BaseFragment(R.layout.fragment_orders_list) {
      * Additional functions
      */
     private fun goToCall(phoneNumber: String) {
+        startActivity(
+            Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel: $phoneNumber")
+            }
+        )
+    }
 
+    private fun copyOrder(order: String) {
+        (requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).apply {
+            setPrimaryClip(
+                ClipData.newPlainText(
+                    OrderModel.TITLE_KEY,
+                    order
+                )
+            )
+        }
+        makeToast(getString(TEXT_COPIED_TOAST))
     }
 
     /**
@@ -112,5 +136,9 @@ class OrdersListFragment: BaseFragment(R.layout.fragment_orders_list) {
     override fun onResume() {
         super.onResume()
         vm.refreshData()
+    }
+
+    companion object {
+        private const val TEXT_COPIED_TOAST = R.string.toast_msg_copied
     }
 }

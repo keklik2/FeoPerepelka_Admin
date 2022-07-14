@@ -10,12 +10,17 @@ object Login {
     const val ERR_CONNECTION_FAILED = "Connection failed"
     const val ERR_EXTRA = "Something went wrong. Try again later"
 
-    fun login(login: String, password: String, onErrorCallback: ((e: Exception) -> Unit)? = null) {
+    fun login(
+        login: String,
+        password: String,
+        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
+    ) {
         ParseUser.logInInBackground(login, password) { user, e ->
             if (user == null) {
                 ParseUser.logOut()
-                onErrorCallback?.let {
-                    if (e != null) {
+                if (e != null) {
+                    onErrorCallback?.let {
                         when (e.code) {
                             ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
                             ParseException.OBJECT_NOT_FOUND -> it(Exception(ERR_WRONG_LOGIN))
@@ -23,6 +28,7 @@ object Login {
                         }
                     }
                 }
+                else onSuccessCallback?.invoke()
             }
         }
     }

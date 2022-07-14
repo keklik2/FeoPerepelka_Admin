@@ -1,12 +1,7 @@
 package com.demo.feoperepelkaadmin.presentation
 
 import com.demo.feoperepelkaadmin.presentation.fragments.categoriesList.CategoriesListFragment
-import com.demo.feoperepelkaadmin.presentation.fragments.categoryDetail.CategoryDetailFragment
-import com.demo.feoperepelkaadmin.presentation.fragments.login.LoginFragment
-import com.demo.feoperepelkaadmin.presentation.fragments.noInternet.NoInternetFragment
-import com.demo.feoperepelkaadmin.presentation.fragments.noteDetail.NoteDetailFragment
 import com.demo.feoperepelkaadmin.presentation.fragments.notesList.NotesListFragment
-import com.demo.feoperepelkaadmin.presentation.fragments.orderDetail.OrderDetailFragment
 import com.demo.feoperepelkaadmin.presentation.fragments.ordersList.OrdersListFragment
 import com.demo.feoperepelkaadmin.server.models.CategoryModel
 import com.demo.feoperepelkaadmin.server.models.OrderModel
@@ -29,7 +24,6 @@ object Screens {
      */
     fun MainActivityScreen() = ActivityScreen { MainActivity.newIntent(it) }
     fun LoginActivity() = ActivityScreen { SecondaryActivity.newLoginIntent(it) }
-    fun NoInternet() = FragmentScreen { NoInternetFragment() }
 
     fun NoteDetailActivity() = ActivityScreen { SecondaryActivity.newNoteDetailIntent(it) }
     fun NoteDetailActivity(note: ProductModel) = ActivityScreen { SecondaryActivity.newNoteDetailIntent(it, note) }

@@ -4,8 +4,8 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
@@ -17,6 +17,11 @@ import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.databinding.FragmentNoteDetailBinding
 import com.demo.feoperepelkaadmin.server.models.ProductModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.anderscheow.validator.Validator
+import io.github.anderscheow.validator.rules.common.NotBlankRule
+import io.github.anderscheow.validator.rules.common.NotEmptyRule
+import io.github.anderscheow.validator.validation
+import io.github.anderscheow.validator.validator
 
 @AndroidEntryPoint
 class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
@@ -26,15 +31,57 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
         setupAcceptBtnListener()
         setupPicturePickerListener()
         setupRestoreListener()
+        setupValidationListeners()
     }
     override var setupBinds: (() -> Unit)? = {
         bindCategories()
         bindFields()
         bindGetBtm()
+        bindSwitchLoading()
         bindExit()
     }
     private val filePicker = PicturesPicker(this) {
         vm.imgUri = it
+    }
+
+
+    /**
+     * Validations
+     */
+    private val titleValidation by lazy {
+        validation(binding.tilNoteTitle) {
+            rules {
+                +NotEmptyRule(ERR_EMPTY_TITLE)
+                +NotBlankRule(ERR_BLANK_TITLE)
+            }
+        }
+    }
+
+    private val descriptionValidation by lazy {
+        validation(binding.tilDescription) {
+            rules {
+                +NotEmptyRule(ERR_EMPTY_DESCRIPTION)
+                +NotBlankRule(ERR_BLANK_DESCRIPTION)
+            }
+        }
+    }
+
+    private val weightValidation by lazy {
+        validation(binding.tilWeight) {
+            rules {
+                +NotEmptyRule(ERR_EMPTY_WEIGHT)
+                +NotBlankRule(ERR_BLANK_WEIGHT)
+            }
+        }
+    }
+
+    private val priceValidation by lazy {
+        validation(binding.tilPrice) {
+            rules {
+                +NotEmptyRule(ERR_EMPTY_PRICE)
+                +NotBlankRule(ERR_BLANK_PRICE)
+            }
+        }
     }
 
 
@@ -57,7 +104,7 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
             }
         }
         vm::imgTitle bind {
-            if(!it.isNullOrBlank() && it.isNotBlank()) binding.addImgBtn.text = it
+            if (!it.isNullOrBlank() && it.isNotBlank()) binding.addImgBtn.text = it
         }
         vm::imgBtm bind {
             if (it != null) {
@@ -68,10 +115,11 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
                     .centerCrop()
                     .into(binding.ivProduct)
 
-                if (vm.note == null || (vm.note != null && vm.note!!.img != it)) binding.btnRestore.setVisibility(true)
+                if (vm.note == null || (vm.note != null && vm.note!!.img != it)) binding.btnRestore.setVisibility(
+                    true
+                )
                 else binding.btnRestore.setVisibility(false)
-            }
-            else binding.btnRestore.setVisibility(false)
+            } else binding.btnRestore.setVisibility(false)
         }
     }
 
@@ -114,11 +162,13 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
         }
     }
 
-    private fun bindExit() {
-        vm::canCloseScreen bind {
-            if (it) vm.exit()
+    private fun bindSwitchLoading() {
+        vm.switchLoading bind {
+            binding.layoutLoading.setVisibility(it)
         }
     }
+
+    private fun bindExit() = vm::canCloseScreen bind { if (it) vm.exit() }
 
 
     /**
@@ -126,14 +176,22 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
      */
     private fun setupAcceptBtnListener() {
         binding.buttonAccept.setOnClickListener {
-            vm.saveItem(
-                binding.tietNoteTitle.text.toString(),
-                binding.spinnerCategory.selectedItem as String,
-                binding.spinnerStatus.selectedItemPosition == 0,
-                binding.tietDescription.text.toString(),
-                binding.tietWeight.text.toString(),
-                binding.tietPrice.text.toString()
-            )
+            validator(requireActivity()) {
+                listener = object : Validator.OnValidateListener {
+                    override fun onValidateFailed(errors: List<String>) {}
+                    override fun onValidateSuccess(values: List<String>) {
+                        vm.saveItem(
+                            binding.tietNoteTitle.text.toString(),
+                            binding.spinnerCategory.selectedItem as String,
+                            binding.spinnerStatus.selectedItemPosition == 0,
+                            binding.tietDescription.text.toString(),
+                            binding.tietWeight.text.toString(),
+                            binding.tietPrice.text.toString()
+                        )
+                    }
+                }
+                validate(titleValidation, descriptionValidation, weightValidation, priceValidation)
+            }
         }
     }
 
@@ -149,8 +207,7 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
             if (vm.note != null) {
                 vm.imgBtm = vm.note!!.img
                 vm.imgTitle = vm.note!!.imgTitle
-            }
-            else {
+            } else {
                 vm.imgBtm = null
                 vm.imgTitle = null
                 binding.addImgBtn.text = getString(R.string.button_add_img)
@@ -158,6 +215,48 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
                     .with(requireActivity())
                     .load(R.drawable.ic_image_err_gray)
                     .into(binding.ivProduct)
+            }
+        }
+    }
+
+    private fun setupValidationListeners() {
+        binding.tietNoteTitle.addTextChangedListener {
+            validator(requireActivity()) {
+                listener = object : Validator.OnValidateListener {
+                    override fun onValidateFailed(errors: List<String>) {}
+                    override fun onValidateSuccess(values: List<String>) {}
+                }
+                validate(titleValidation)
+            }
+        }
+
+        binding.tietDescription.addTextChangedListener {
+            validator(requireActivity()) {
+                listener = object : Validator.OnValidateListener {
+                    override fun onValidateFailed(errors: List<String>) {}
+                    override fun onValidateSuccess(values: List<String>) {}
+                }
+                validate(descriptionValidation)
+            }
+        }
+
+        binding.tietWeight.addTextChangedListener {
+            validator(requireActivity()) {
+                listener = object : Validator.OnValidateListener {
+                    override fun onValidateFailed(errors: List<String>) {}
+                    override fun onValidateSuccess(values: List<String>) {}
+                }
+                validate(weightValidation)
+            }
+        }
+
+        binding.tietPrice.addTextChangedListener {
+            validator(requireActivity()) {
+                listener = object : Validator.OnValidateListener {
+                    override fun onValidateFailed(errors: List<String>) {}
+                    override fun onValidateSuccess(values: List<String>) {}
+                }
+                validate(priceValidation)
             }
         }
     }
@@ -179,11 +278,19 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
         getArgs()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     companion object {
+        private const val ERR_BLANK_TITLE = R.string.item_title_error
+        private const val ERR_EMPTY_TITLE = R.string.item_title_error
+
+        private const val ERR_BLANK_DESCRIPTION = R.string.note_description_error
+        private const val ERR_EMPTY_DESCRIPTION = R.string.note_description_error
+
+        private const val ERR_BLANK_WEIGHT = R.string.note_weight_error
+        private const val ERR_EMPTY_WEIGHT = R.string.note_weight_error
+
+        private const val ERR_BLANK_PRICE = R.string.note_price_error
+        private const val ERR_EMPTY_PRICE = R.string.note_price_error
+
         private const val NOTE_KEY = "note_key"
 
         fun newInstance(): NoteDetailFragment = NoteDetailFragment()

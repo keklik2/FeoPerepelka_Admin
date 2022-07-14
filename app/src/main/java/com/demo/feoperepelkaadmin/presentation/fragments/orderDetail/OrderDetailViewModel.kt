@@ -3,6 +3,7 @@ package com.demo.feoperepelkaadmin.presentation.fragments.orderDetail
 import android.app.Application
 import com.demo.architecture.BaseViewModel
 import com.demo.architecture.dialogs.AppDialogContainer
+import com.demo.architecture.helpers.dateToStrForDisplay
 import com.demo.architecture.helpers.refactorString
 import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.server.Server
@@ -10,6 +11,7 @@ import com.demo.feoperepelkaadmin.server.models.OrderModel
 import com.github.terrakok.cicerone.Router
 import dagger.hilt.android.lifecycle.HiltViewModel
 import me.aartikov.sesame.property.autorun
+import me.aartikov.sesame.property.command
 import me.aartikov.sesame.property.state
 import javax.inject.Inject
 
@@ -22,6 +24,8 @@ class OrderDetailViewModel @Inject constructor(
     var order: OrderModel? by state(null)
     var products: MutableList<ProductItem> by state(mutableListOf())
 
+    val switchLoading = command<Boolean>()
+
     init {
         autorun(::order) { o ->
             o?.let { products = getProductItemsFromMap(it.shopList) }
@@ -31,12 +35,15 @@ class OrderDetailViewModel @Inject constructor(
     fun saveItem(address: String?) {
         val rAddress = refactorString(address)
         val rProducts = refactorProducts(products)
+
+        switchLoading(true)
         Server.updateOrder(
             order!!.copy(
                 address = rAddress,
                 shopList = rProducts
             ),
             onErrorCallback = {
+                switchLoading(false)
                 showAlert(
                     AppDialogContainer(
                         title = getString(R.string.dialog_title_error),
@@ -50,15 +57,28 @@ class OrderDetailViewModel @Inject constructor(
     }
 
     fun deleteOrder() {
-        Server.deleteOrder(
-            order!!
-        ) {
+        showAlert(
             AppDialogContainer(
-                title = getString(R.string.dialog_title_error),
-                message = it.toString(),
-                positiveBtnCallback = { }
+                getString(R.string.dialog_title_order_delete),
+                getString(R.string.dialog_order_delete),
+                positiveBtnCallback = {
+                    switchLoading(true)
+                    Server.deleteOrder(
+                        order!!,
+                        {
+                            switchLoading(false)
+                            AppDialogContainer(
+                                title = getString(R.string.dialog_title_error),
+                                message = it.toString(),
+                                positiveBtnCallback = { }
+                            )
+                        },
+                        { setCanCloseScreen() }
+                    )
+                },
+                negativeBtnCallback = {  }
             )
-        }
+        )
     }
 
     private fun refactorProducts(list: List<ProductItem>): MutableMap<String, Int> {
@@ -79,10 +99,26 @@ class OrderDetailViewModel @Inject constructor(
 
     fun getOrderAsCopiedText(): String {
         order?.let {
-
+            val builder = StringBuilder()
+            with(builder) {
+                append(it.customer).append("\n")
+                append(dateToStrForDisplay(it.date)).append("\n")
+                append(it.address).append("\n")
+                append(it.description).append("\n")
+                append(it.phoneNumber).append("\n")
+                append(it.getRefactoredShopList())
+            }
+            return builder.toString()
         }
-        return ""
+        return "- empty order -"
     }
+
+    fun checkProductsAmount(item: ProductItem) {
+        if (item.amount <= 0) products = products.toMutableList().apply {
+            remove(item)
+        }
+    }
+
 
     /**
      * Fragment exit observer

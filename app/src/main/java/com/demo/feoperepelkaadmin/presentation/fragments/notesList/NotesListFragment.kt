@@ -2,10 +2,10 @@ package com.demo.feoperepelkaadmin.presentation.fragments.notesList
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.demo.architecture.BaseFragment
-import com.demo.architecture.files.PicturesPicker
 import com.demo.architecture.helpers.setVisibility
 import com.demo.feoperepelkaadmin.R
 import com.demo.feoperepelkaadmin.databinding.FragmentNotesListBinding
@@ -19,6 +19,7 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
     override var setupListeners: (() -> Unit)? = {
         setupAddNoteBtnListener()
         setupRecyclerScrollListener()
+        setupRecyclerOnSwipeListener()
     }
     override var setupBinds: (() -> Unit)? = {
         setupProductsBind()
@@ -84,6 +85,28 @@ class NotesListFragment: BaseFragment(R.layout.fragment_notes_list) {
                 if (dy < 0) if (!isFbVisible()) showFb()
             }
         })
+    }
+
+    private fun setupRecyclerOnSwipeListener() {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val currItem =
+                    adapter.currentList[viewHolder.absoluteAdapterPosition]
+                binding.rvNotes.adapter?.notifyItemChanged(viewHolder.absoluteAdapterPosition)
+                vm.deleteNote(currItem)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(binding.rvNotes)
     }
 
 

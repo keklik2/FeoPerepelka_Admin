@@ -18,6 +18,8 @@ abstract class BaseViewModel(
 ): AndroidViewModel(app), PropertyHost {
 
     val showAlert = command<AppDialogContainer>()
+    val showToast = command<String>()
+    val showToastLong = command<String>()
     val showDatePicker = command<AppDatePickerContainer>()
     abstract val router: Router
 

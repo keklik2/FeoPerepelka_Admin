@@ -48,7 +48,7 @@
     <string name="button_add_img">Выбрать изображение</string>
 
     <!-- Text input layouts Errors -->
-    <string name="category_title_error">Недопустимый заголовок</string>
+    <string name="item_title_error">Недопустимый заголовок</string>
     <string name="note_title_error">Недопустимый заголовок</string>
     <string name="note_description_error">Недопустимое описание</string>
     <string name="note_weight_error">Недопустимый вес (в граммах)</string>
@@ -96,6 +96,20 @@
     <string name="dialog_title_error">Ошибка</string>
     <string name="dialog_error">Произошла непредвиденная ошибка</string>
     <string name="dialog_empty_img">Вы не выбрали изображение для товара</string>
+    <string name="dialog_title_order_delete">Завершить заказ?</string>
+    <string name="dialog_order_delete">После завершения заказа информация о нём будет недосту
+        пна. Вы уверены, что хотите завершить заказ?</string>
+    <string name="dialog_title_note_delete">Удалить продукт?</string>
+    <string name="dialog_note_delete">После удаления продукта информация о нём будет недосту
+        пна. Вы уверены, что хотите удалить продукт?</string>
+    <string name="dialog_title_category_delete">Удалить категорию?</string>
+    <string name="dialog_category_delete">После удаления категории информация о ней будет недосту
+        пна. Вы уверены, что хотите удалить продукт?</string>
+    <string name="dialog_title_category_locked">Заблокированная категория</string>
+    <string name="dialog_category_locked">Заблокированную категорию нельзя удалить, но можно изменить!</string>
+
+    <!-- Toasts -->
+    <string name="toast_msg_copied">Текст скопирован</string>
 
     <!-- String-Arrays for Spinners -->
     <string-array name="availabilities">

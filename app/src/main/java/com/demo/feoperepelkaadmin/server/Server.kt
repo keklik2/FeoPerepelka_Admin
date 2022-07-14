@@ -85,23 +85,27 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                }
-                else onSuccessCallback?.invoke()
+                } else onSuccessCallback?.invoke()
             }
         }
     }
 
-    fun deleteCategory(category: CategoryModel, onErrorCallback: ((e: Exception) -> Unit)? = null) {
+    fun deleteCategory(
+        category: CategoryModel,
+        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
+    ) {
         if (!category.locked) {
             category.parseObject.deleteInBackground { e ->
-                onErrorCallback?.let {
-                    if (e != null) {
+                if (e != null) {
+                    onErrorCallback?.let {
                         when (e.code) {
                             ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
                 }
+                else onSuccessCallback?.invoke()
             }
         } else onErrorCallback?.invoke(Exception(ERR_CATEGORY_LOCKED))
     }
@@ -173,22 +177,25 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                }
-                else onSuccessCallback?.invoke()
+                } else onSuccessCallback?.invoke()
             }
         }
     }
 
-    fun deleteProduct(product: ProductModel, onErrorCallback: ((e: Exception) -> Unit)? = null) {
+    fun deleteProduct(
+        product: ProductModel,
+        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
+    ) {
         product.parseObject!!.deleteInBackground { e ->
-            onErrorCallback?.let {
-                if (e != null) {
+            if (e != null) {
+                onErrorCallback?.let {
                     when (e.code) {
                         ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
                         else -> it(Exception(ERR_EXTRA))
                     }
                 }
-            }
+            } else onSuccessCallback?.invoke()
         }
     }
 
@@ -258,8 +265,7 @@ object Server {
                             else -> it(Exception(ERR_EXTRA))
                         }
                     }
-                }
-                else onSuccessCallback?.invoke()
+                } else onSuccessCallback?.invoke()
             }
         }
     }
@@ -284,7 +290,7 @@ object Server {
             put(OrderModel.CUSTOMER_KEY, "Customer [$count]")
             put(OrderModel.ADDRESS_KEY, "Address [$count]")
             put(OrderModel.DESCRIPTION_KEY, "Description [$count]")
-            put(OrderModel.PHONE_KEY, "Phone [${count++}]")
+            put(OrderModel.PHONE_KEY, "+7999999999${count++}")
             put(OrderModel.DATE_KEY, Date().time)
             saveInBackground { e ->
                 onErrorCallback?.let {
@@ -299,16 +305,20 @@ object Server {
         }
     }
 
-    fun deleteOrder(order: OrderModel, onErrorCallback: ((e: Exception) -> Unit)? = null) {
+    fun deleteOrder(
+        order: OrderModel,
+        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
+    ) {
         order.parseObject.deleteInBackground { e ->
-            onErrorCallback?.let {
-                if (e != null) {
+            if (e != null) {
+                onErrorCallback?.let {
                     when (e.code) {
                         ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
                         else -> it(Exception(ERR_EXTRA))
                     }
                 }
-            }
+            } else onSuccessCallback?.invoke()
         }
     }
 }

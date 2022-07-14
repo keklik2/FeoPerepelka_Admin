@@ -31,6 +31,27 @@ class NotesListViewModel @Inject constructor(
     fun goToAddNoteScreen() = router.navigateTo(Screens.NoteDetailActivity())
     fun goToEditNoteScreen(note: ProductModel) = router.navigateTo(Screens.NoteDetailActivity(note))
 
+    fun deleteNote(product: ProductModel) {
+        showAlert(AppDialogContainer(
+            getString(R.string.dialog_title_note_delete),
+            getString(R.string.dialog_note_delete),
+            positiveBtnCallback = {
+                Server.deleteProduct(
+                    product,
+                    {
+                        AppDialogContainer(
+                            title = getString(R.string.dialog_title_error),
+                            message = it.toString(),
+                            positiveBtnCallback = { }
+                        )
+                    },
+                    { refreshData() }
+                )
+            },
+            negativeBtnCallback = {  }
+        ))
+    }
+
     fun refreshData() {
         withScope {
             _productsListLoading.refresh()

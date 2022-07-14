@@ -2,6 +2,7 @@ package com.demo.feoperepelkaadmin.presentation.fragments.categoriesList
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.demo.architecture.BaseFragment
@@ -18,6 +19,7 @@ class CategoriesListFragment : BaseFragment(R.layout.fragment_categories_list) {
     override var setupListeners: (() -> Unit)? = {
         setupAddCategoryBtnListener()
         setupRecyclerScrollListener()
+        setupRecyclerOnSwipeListener()
     }
     override var setupBinds: (() -> Unit)? = {
         setupAdapterBind()
@@ -77,6 +79,28 @@ class CategoriesListFragment : BaseFragment(R.layout.fragment_categories_list) {
                 if (dy < 0) if (!isFbVisible()) showFb()
             }
         })
+    }
+
+    private fun setupRecyclerOnSwipeListener() {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val currItem =
+                    adapter.currentList[viewHolder.absoluteAdapterPosition]
+                binding.rvCategories.adapter?.notifyItemChanged(viewHolder.absoluteAdapterPosition)
+                vm.deleteCategory(currItem)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(binding.rvCategories)
     }
 
 
