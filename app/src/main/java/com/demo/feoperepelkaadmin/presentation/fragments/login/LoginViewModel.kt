@@ -1,6 +1,7 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.login
 
 import android.app.Application
+import android.util.Log
 import com.demo.architecture.BaseViewModel
 import com.demo.architecture.dialogs.AppDialogContainer
 import com.demo.architecture.helpers.refactorString
@@ -34,7 +35,12 @@ class LoginViewModel @Inject constructor(
                 showAlert(
                     AppDialogContainer(
                         title = getString(R.string.dialog_title_error),
-                        message = it.toString(),
+                        message = when (it) {
+                            1 -> getString(R.string.dialog_error_account_not_exist)
+                            2 -> getString(R.string.dialog_error_wrong_login)
+                            3 -> getString(R.string.dialog_error_connection)
+                            else -> getString(R.string.dialog_error)
+                        },
                         positiveBtnCallback = { }
                     )
                 )

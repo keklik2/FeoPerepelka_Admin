@@ -1,19 +1,20 @@
 package com.demo.feoperepelkaadmin.server
 
+import android.util.Log
 import com.parse.ParseException
 import com.parse.ParseUser
 
 object Login {
 
-    const val ERR_ACCOUNT_EXISTS = "Account already exists"
-    const val ERR_WRONG_LOGIN = "Wrong login or password"
-    const val ERR_CONNECTION_FAILED = "Connection failed"
-    const val ERR_EXTRA = "Something went wrong. Try again later"
+    const val ERR_ACCOUNT_EXISTS = 1
+    const val ERR_WRONG_LOGIN = 2
+    const val ERR_CONNECTION_FAILED = 3
+    const val ERR_EXTRA = 4
 
     fun login(
         login: String,
         password: String,
-        onErrorCallback: ((e: Exception) -> Unit)? = null,
+        onErrorCallback: ((errCode: Int) -> Unit)? = null,
         onSuccessCallback: (() -> Unit)? = null
     ) {
         ParseUser.logInInBackground(login, password) { user, e ->
@@ -22,21 +23,20 @@ object Login {
                 if (e != null) {
                     onErrorCallback?.let {
                         when (e.code) {
-                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
-                            ParseException.OBJECT_NOT_FOUND -> it(Exception(ERR_WRONG_LOGIN))
-                            else -> it(Exception(ERR_EXTRA))
+                            ParseException.CONNECTION_FAILED -> it(ERR_CONNECTION_FAILED)
+                            ParseException.OBJECT_NOT_FOUND -> it(ERR_WRONG_LOGIN)
+                            else -> it(ERR_EXTRA)
                         }
                     }
-                }
-                else onSuccessCallback?.invoke()
-            }
+                } else onSuccessCallback?.invoke()
+            } else onSuccessCallback?.invoke()
         }
     }
 
     fun register(
         login: String,
         password: String,
-        onErrorCallback: ((e: Exception) -> Unit)? = null
+        onErrorCallback: ((errCode: Int) -> Unit)? = null
     ) {
         ParseUser().apply {
             username = login
@@ -46,10 +46,10 @@ object Login {
                 onErrorCallback?.let {
                     if (e != null) {
                         when (e.code) {
-                            ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
-                            ParseException.USERNAME_TAKEN -> it(Exception(ERR_ACCOUNT_EXISTS))
-                            ParseException.OBJECT_NOT_FOUND -> it(Exception(ERR_WRONG_LOGIN))
-                            else -> it(Exception(ERR_EXTRA))
+                            ParseException.CONNECTION_FAILED -> it(ERR_CONNECTION_FAILED)
+                            ParseException.USERNAME_TAKEN -> it(ERR_ACCOUNT_EXISTS)
+                            ParseException.OBJECT_NOT_FOUND -> it(ERR_WRONG_LOGIN)
+                            else -> it(ERR_EXTRA)
                         }
                     }
                 }
@@ -57,16 +57,20 @@ object Login {
         }
     }
 
-    fun logout(onErrorCallback: ((e: Exception) -> Unit)? = null) =
+    fun logout(
+        onErrorCallback: ((errCode: Int) -> Unit)? = null,
+        onSuccessCallback: (() -> Unit)? = null
+    ) =
         ParseUser.logOutInBackground { e ->
-            onErrorCallback?.let {
-                if (e != null) {
+            if (e != null) {
+                onErrorCallback?.let {
                     when (e.code) {
-                        ParseException.CONNECTION_FAILED -> it(Exception(ERR_CONNECTION_FAILED))
-                        else -> it(Exception(ERR_EXTRA))
+                        ParseException.CONNECTION_FAILED -> it(ERR_CONNECTION_FAILED)
+                        else -> it(ERR_EXTRA)
                     }
                 }
             }
+            else onSuccessCallback?.invoke()
         }
 
     fun isLogged(): Boolean {

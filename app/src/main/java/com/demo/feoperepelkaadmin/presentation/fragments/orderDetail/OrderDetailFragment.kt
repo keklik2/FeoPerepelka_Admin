@@ -45,7 +45,10 @@ class OrderDetailFragment : BaseFragment(R.layout.fragment_order_detail) {
      * Individual variables
      */
     private val adapter by lazy {
-        ProductAdapter.get { vm.checkProductsAmount(it) }
+        ProductAdapter.get(
+            { vm.checkProductsAmount(it) },
+            { vm.deleteProduct(it) }
+        )
     }
 
 

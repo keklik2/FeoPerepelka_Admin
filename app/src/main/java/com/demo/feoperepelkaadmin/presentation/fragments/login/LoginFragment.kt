@@ -66,10 +66,18 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
      */
     private fun setupLoginBtnListener() {
         binding.buttonLogin.setOnClickListener {
-            vm.tryLogin(
-                binding.tietLogin.text.toString(),
-                binding.tietPassword.text.toString()
-            )
+            validator(requireActivity()) {
+                listener = object : Validator.OnValidateListener {
+                    override fun onValidateFailed(errors: List<String>) {}
+                    override fun onValidateSuccess(values: List<String>) {
+                        vm.tryLogin(
+                            binding.tietLogin.text.toString(),
+                            binding.tietPassword.text.toString()
+                        )
+                    }
+                }
+                validate(loginValidation, passwordValidation)
+            }
         }
     }
 

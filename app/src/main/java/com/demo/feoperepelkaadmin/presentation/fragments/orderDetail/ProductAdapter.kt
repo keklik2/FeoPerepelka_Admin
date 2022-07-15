@@ -7,7 +7,10 @@ import me.ibrahimyilmaz.kiel.adapterOf
 import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
 object ProductAdapter {
-    fun get(onAmountChangedCallback: ((ProductItem) -> Unit)? = null) =
+    fun get(
+        onAmountChangedCallback: ((ProductItem) -> Unit)? = null,
+        onItemDeleteCallback: ((ProductItem) -> Unit)? = null
+    ) =
         adapterOf<ProductItem> {
             diff(
                 areContentsTheSame = { old, new -> old.title == new.title && old.amount == new.amount },
@@ -33,10 +36,7 @@ object ProductAdapter {
                                 onAmountChangedCallback?.invoke(item)
                             }
                         }
-                        btnDelete.setOnClickListener {
-                            item.amount = 0
-                            onAmountChangedCallback?.invoke(item)
-                        }
+                        btnDelete.setOnClickListener { onItemDeleteCallback?.invoke(item) }
                     }
                 }
             )

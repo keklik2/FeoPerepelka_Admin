@@ -79,6 +79,7 @@ class NoteDetailViewModel @Inject constructor(
         weight: String?,
         price: String?
     ) {
+        switchLoading(true)
         val rTitle = refactorString(title)
         val rCategory = refactorString(category)
         val rDescription = refactorString(description)
@@ -86,7 +87,6 @@ class NoteDetailViewModel @Inject constructor(
         val rPrice = refactorDouble(price)
 
         if (imgBtm != null && imgTitle != null) {
-            switchLoading(true)
             Server.addOrUpdateProduct(
                 ProductModel(
                     rTitle,

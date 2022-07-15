@@ -1,14 +1,20 @@
 package com.demo.feoperepelkaadmin.presentation.fragments.noteDetail
 
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.demo.architecture.BaseFragment
 import com.demo.architecture.files.PicturesPicker
 import com.demo.architecture.helpers.doubleToStr
@@ -22,6 +28,9 @@ import io.github.anderscheow.validator.rules.common.NotBlankRule
 import io.github.anderscheow.validator.rules.common.NotEmptyRule
 import io.github.anderscheow.validator.validation
 import io.github.anderscheow.validator.validator
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 @AndroidEntryPoint
 class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
@@ -110,10 +119,20 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
             if (it != null) {
                 Glide
                     .with(requireActivity())
+                    .asBitmap()
                     .load(it)
-                    .encodeQuality(60)
+                    .encodeQuality(80)
                     .centerCrop()
-                    .into(binding.ivProduct)
+                    .into(object: CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            binding.ivProduct.setImageBitmap(resource)
+                            binding.ivProduct.scaleType = ImageView.ScaleType.CENTER_CROP
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
 
                 if (vm.note == null || (vm.note != null && vm.note!!.img != it)) binding.btnRestore.setVisibility(
                     true
@@ -151,7 +170,7 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
 
     private fun bindGetBtm() {
         vm.decodeBitmap bind {
-            vm.imgBtm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            val newImg = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
                 ImageDecoder.decodeBitmap(
                     ImageDecoder.createSource(
                         requireContext().contentResolver,
@@ -159,6 +178,13 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
                     )
                 )
             else MediaStore.Images.Media.getBitmap(requireContext().contentResolver, it)
+            val ratio: Int = newImg.height / newImg.width
+            vm.imgBtm = Bitmap.createScaledBitmap(
+                newImg,
+                500,
+                if (500 * ratio > 0) 500 * ratio else 500,
+                true
+            )
         }
     }
 

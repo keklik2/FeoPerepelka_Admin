@@ -121,6 +121,17 @@ class OrderDetailViewModel @Inject constructor(
         }
     }
 
+    fun deleteProduct(item: ProductItem) {
+        showAlert(
+            AppDialogContainer(
+                getString(R.string.dialog_product_delete_title),
+                String.format(getString(R.string.dialog_product_delete), item.title),
+                positiveBtnCallback = { products = products.toMutableList().apply { remove(item) } },
+                negativeBtnCallback = {  }
+            )
+        )
+    }
+
     fun showProductsList() {
         switchLoading(true)
         if (allProducts.isNullOrEmpty()) getNotesForList { onNotesReceived(it) }

@@ -55,7 +55,7 @@
     <string name="note_weight_error">Недопустимый вес (в граммах)</string>
     <string name="note_price_error">Недопустимая стоимость</string>
     <string name="order_address_error">Недопустимый адрес</string>
-    <string name="login_error">Недопустимый e-mail</string>
+    <string name="login_error">Недопустимый e-mail или логин</string>
     <string name="password_error">Недопустимый пароль</string>
 
     <!-- Other errors -->
@@ -90,7 +90,7 @@
     <string name="hint_price">Стоимость</string>
     <string name="hint_positions">Позиции</string>
     <string name="hint_address">Адрес</string>
-    <string name="hint_login">E-Mail адрес</string>
+    <string name="hint_login">E-Mail адрес / Логин</string>
     <string name="hint_password">Пароль</string>
 
     <!-- Dialogs -->
@@ -109,6 +109,11 @@
     <string name="dialog_title_category_locked">Заблокированная категория</string>
     <string name="dialog_category_locked">Заблокированную категорию нельзя удалить, но можно изменить!</string>
     <string name="dialog_title_products_choose">Выберите продукт</string>
+    <string name="dialog_error_wrong_login">Неверный логин или пароль</string>
+    <string name="dialog_error_account_not_exist">Аккаунт с таким логином не существует</string>
+    <string name="dialog_error_connection">Аккаунт с таким логином не существует</string>
+    <string name="dialog_product_delete_title">Удалить продукт</string>
+    <string name="dialog_product_delete">Вы уверены, что хотите убрать продукт «%s» из заказа?</string>
 
     <!-- Toasts -->
     <string name="toast_msg_copied">Текст скопирован</string>
