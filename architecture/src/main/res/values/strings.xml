@@ -12,4 +12,17 @@
 
     <!-- Converter res -->
     <string name="percents">%s\%</string>
+
+    <!-- Alert Dialogs -->
+    <string name="dialog_positive">Принять</string>
+    <string name="dialog_neutral">Закрыть</string>
+    <string name="dialog_negative">Отмена</string>
+    <string name="dialog_permission_title">Необходимо разрешение</string>
+    <string name="dialog_permission_message">Для работы приложения необходимо разрешение на доступ к
+        файлам.\nБез этого разрешения часть функционала будет недоступна!\nПредоставить разрешение
+        можно так же в настройках смартфона.</string>
+
+    <!-- Toasts -->
+    <string name="toast_file_picker_error">Файл не был выбран</string>
+    <string name="toast_file_picker_success">Файл успешно выбран</string>
 </resources>

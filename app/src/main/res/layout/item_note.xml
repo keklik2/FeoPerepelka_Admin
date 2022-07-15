@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_product"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/iv_desc_prodduct_image"
+        android:scaleType="center"
+        android:layout_margin="8dp"
+
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:shapeAppearanceOverlay="@style/roundedIV"
+        android:background="@color/light_gray"
+        android:backgroundTint="@color/light_gray"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_image_err_gray" />
+
+    <ImageView
+        android:id="@+id/iv_status_enabled"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/background_rectangle"
+
+        android:backgroundTint="@color/light_green"
+        android:contentDescription="@string/iv_desc_product_available"
+        android:padding="4dp"
+
+        android:visibility="visible"
+        app:layout_constraintDimensionRatio="1:1"
+
+        app:layout_constraintStart_toStartOf="@+id/iv_product"
+        app:layout_constraintTop_toTopOf="@+id/iv_product"
+
+        app:srcCompat="@drawable/ic_check" />
+
+    <ImageView
+        android:id="@+id/iv_status_disabled"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/background_rectangle"
+        android:backgroundTint="@color/light_red"
+        android:contentDescription="@string/iv_desc_product_unavailable"
+        android:padding="4dp"
+        android:visibility="invisible"
+        app:layout_constraintDimensionRatio="1:1"
+
+        app:layout_constraintStart_toStartOf="@+id/iv_product"
+        app:layout_constraintTop_toTopOf="@+id/iv_product"
+
+        app:srcCompat="@drawable/ic_close" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/entryTitleText.Note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+
+        app:layout_constraintBottom_toTopOf="@+id/tv_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_product"
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:text="Свежие перепела" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        style="@style/descriptionText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ellipsize="end"
+        android:maxLines="10"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_product"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+
+        tools:text="Сочное мясо свежеощипанной перепёлки фермерского происхождения" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        style="@style/priceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="6dp"
+
+        app:layout_constraintTop_toBottomOf="@+id/tv_description"
+        app:layout_constraintStart_toEndOf="@+id/iv_product"
+
+        android:background="@drawable/background_rectangle"
+        android:backgroundTint="@color/light_gray"
+
+        tools:text="700p" />
+
+    <TextView
+        android:id="@+id/tv_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+
+        app:layout_constraintTop_toTopOf="@+id/tv_price"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+        app:layout_constraintStart_toEndOf="@+id/tv_price"
+
+        style="@style/weightText"
+        tools:text="250гр" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

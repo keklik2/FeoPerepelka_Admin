@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+
+        android:ellipsize="end"
+        android:maxLines="1"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/delete_position_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        style="@style/entryTitleText.notCaps"
+        tools:text="Category 1" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:background="@drawable/background_rectangle"
+        android:backgroundTint="@color/light_black"
+
+        app:layout_constraintTop_toTopOf="@+id/delete_position_button"
+        app:layout_constraintStart_toStartOf="@+id/delete_position_button"
+        app:layout_constraintEnd_toEndOf="@+id/add_position_button"
+        app:layout_constraintBottom_toBottomOf="@+id/add_position_button"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/delete_position_button"
+        android:layout_width="25dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginEnd="4dp"
+
+        android:background="@drawable/background_rectangle"
+        android:backgroundTint="@color/light_black"
+
+        style="@style/constText.White"
+        android:gravity="center"
+        android:text="@string/button_delete_sign"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_position_amount"
+        app:layout_constraintStart_toEndOf="@+id/tv_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_position_amount"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+
+        style="@style/entryTitleText"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="end"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/add_position_button"
+        app:layout_constraintStart_toEndOf="@+id/delete_position_button"
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:text="2" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_position_button"
+        android:layout_width="25dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+
+        android:background="@drawable/background_rectangle"
+        android:backgroundTint="@color/light_black"
+
+        style="@style/constText.White"
+        android:gravity="center"
+        android:text="@string/button_add_sign"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_delete"
+        app:layout_constraintStart_toEndOf="@+id/tv_position_amount"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="15dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintDimensionRatio="1:1"
+
+        android:src="@drawable/ic_close_gray"
+        android:background="@null"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

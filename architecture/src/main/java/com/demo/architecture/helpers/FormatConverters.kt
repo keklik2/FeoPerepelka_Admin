@@ -5,6 +5,9 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.view.View
+import androidx.core.content.PermissionChecker
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.demo.architecture.R
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -47,7 +50,7 @@ fun dateToStrForDisplay(date: Long): String {
 fun dayOfWeekToResForDisplay(date: Long): Int {
     val calendar = GregorianCalendar.getInstance().apply { timeInMillis = date }
 
-    return when(calendar.get(GregorianCalendar.DAY_OF_WEEK)) {
+    return when (calendar.get(GregorianCalendar.DAY_OF_WEEK)) {
         GregorianCalendar.MONDAY -> R.string.monday
         GregorianCalendar.TUESDAY -> R.string.tuesday
         GregorianCalendar.WEDNESDAY -> R.string.wednesday
@@ -80,6 +83,16 @@ fun percentsToStr(value: Double): String = "${value.toInt()}%"
 /**
  * Classes external functions
  */
+fun Fragment.isPermissionGranted(permission: String): Boolean {
+    context?.let {
+        return PermissionChecker.checkSelfPermission(
+            it,
+            permission
+        ) == PermissionChecker.PERMISSION_GRANTED
+    }
+    return false
+}
+
 fun Uri.getOriginalFileName(context: Context): String? {
     return try {
         context.contentResolver.query(this, null, null, null, null)?.use {
@@ -96,6 +109,22 @@ fun View.setVisibility(isVisible: Boolean) {
     this.visibility =
         if (isVisible) View.VISIBLE
         else View.INVISIBLE
+}
+
+fun <T> MutableCollection<T>.addAllNotExisting(list: List<T>) {
+    if (this.isEmpty()) this.addAll(list)
+    else {
+        for (i in list) {
+            var add = true
+            for (c in this) {
+                if (i == c) {
+                    add = false
+                    return
+                }
+            }
+            if (add) this.add(i)
+        }
+    }
 }
 
 //inline fun <reified T> genericType() = object: TypeToken<T>() {}.type
