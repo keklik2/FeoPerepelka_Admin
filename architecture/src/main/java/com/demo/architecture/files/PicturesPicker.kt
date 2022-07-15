@@ -2,6 +2,7 @@ package com.demo.architecture.files
 
 import android.Manifest
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -12,11 +13,12 @@ import com.demo.architecture.helpers.isPermissionGranted
 
 class PicturesPicker(
     private val fragment: Fragment,
+    private val isMultipleChoice: Boolean = false,
     private val onSelectSuccess: ((Uri) -> Unit)? = null
 ): FileSelectionEntryPoint {
 
     private val picturesPicker =
-        fragment.registerForActivityResult(SelectFileResultContract()) {
+        fragment.registerForActivityResult(SelectFileResultContract(isMultipleChoice)) {
             onFileSelected(it)
         }
     private val readStoragePermission =
