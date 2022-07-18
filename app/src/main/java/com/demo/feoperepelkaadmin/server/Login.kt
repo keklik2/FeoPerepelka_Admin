@@ -73,7 +73,5 @@ object Login {
             else onSuccessCallback?.invoke()
         }
 
-    fun isLogged(): Boolean {
-        return ParseUser.getCurrentUser() != null
-    }
+    fun isLogged(): Boolean = ParseUser.getCurrentUser() != null
 }

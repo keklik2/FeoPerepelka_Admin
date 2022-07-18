@@ -93,16 +93,8 @@ fun Fragment.isPermissionGranted(permission: String): Boolean {
     return false
 }
 
-fun Uri.getOriginalFileName(context: Context): String? {
-    return try {
-        context.contentResolver.query(this, null, null, null, null)?.use {
-            val nameColumnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            it.moveToFirst()
-            it.getString(nameColumnIndex)
-        }
-    } catch (t: Throwable) {
-        path!!.substringAfterLast('/', "")
-    }
+fun Uri.getOriginalFileName(): String? {
+    return path!!.substringAfterLast('/', "")
 }
 
 fun View.setVisibility(isVisible: Boolean) {

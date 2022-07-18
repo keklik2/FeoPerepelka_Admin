@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.demo.architecture.BaseViewModel
 import com.demo.architecture.dialogs.AppDialogContainer
+import com.demo.architecture.helpers.getOriginalFileName
 import com.demo.architecture.helpers.refactorDouble
 import com.demo.architecture.helpers.refactorString
 import com.demo.feoperepelkaadmin.R
@@ -46,7 +47,7 @@ class NoteDetailViewModel @Inject constructor(
         autorun(::imgUri) { uri ->
             if (uri != null) {
                 decodeBitmap(uri)
-                imgTitle = uri.lastPathSegment
+                imgTitle = uri.getOriginalFileName()
             }
         }
 

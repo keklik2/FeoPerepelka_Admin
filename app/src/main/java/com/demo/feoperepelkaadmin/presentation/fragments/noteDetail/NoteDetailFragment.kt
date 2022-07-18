@@ -122,21 +122,11 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
                     .asBitmap()
                     .load(it)
                     .encodeQuality(80)
-                    .centerCrop()
-                    .into(object: CustomTarget<Bitmap>() {
-                        override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
-                        ) {
-                            binding.ivProduct.setImageBitmap(resource)
-                            binding.ivProduct.scaleType = ImageView.ScaleType.CENTER_CROP
-                        }
-                        override fun onLoadCleared(placeholder: Drawable?) {}
-                    })
+                    .into(binding.ivProduct)
 
-                if (vm.note == null || (vm.note != null && vm.note!!.img != it)) binding.btnRestore.setVisibility(
-                    true
-                )
+                if (vm.note == null
+                    || (vm.note != null && vm.note!!.img != it)
+                ) binding.btnRestore.setVisibility(true)
                 else binding.btnRestore.setVisibility(false)
             } else binding.btnRestore.setVisibility(false)
         }
@@ -178,11 +168,13 @@ class NoteDetailFragment : BaseFragment(R.layout.fragment_note_detail) {
                     )
                 )
             else MediaStore.Images.Media.getBitmap(requireContext().contentResolver, it)
-            val ratio: Int = newImg.height / newImg.width
+
+            val ratio: Double = (newImg.height / 500).toDouble()
+            val newRatio = if (ratio < 1) 1.0 else ratio
             vm.imgBtm = Bitmap.createScaledBitmap(
                 newImg,
-                500,
-                if (500 * ratio > 0) 500 * ratio else 500,
+                newImg.width / newRatio.toInt(),
+                newImg.height / newRatio.toInt(),
                 true
             )
         }
