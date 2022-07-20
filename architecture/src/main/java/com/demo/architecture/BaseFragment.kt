@@ -52,10 +52,6 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int): Fragment(layoutRes), Pro
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBackPresser()
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         setupListeners?.invoke()
         setupBinds?.invoke()
